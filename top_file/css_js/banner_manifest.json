@@ -1,0 +1,5 @@
+{
+  "retro":  { "folder": "retro", "count": 12 },
+  "cyber":  { "folder": "cyber", "count": 14 },
+  "oldweb": { "folder": "retro", "count": 12 }
+}

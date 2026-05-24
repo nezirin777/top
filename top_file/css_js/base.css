@@ -1,0 +1,686 @@
+/* =========================================================
+   OKTAVIA CGI GAMES - BASE CSS
+   ---------------------------------------------------------
+   - 共通レイアウト
+   - 共通コンポーネント
+   - テーマ非依存の骨格
+   ========================================================= */
+
+/* =========================
+   1) Common tokens
+   ========================= */
+:root {
+  /* fonts */
+  --font-body: "MS PGothic", "MS Gothic", "Meiryo", "Hiragino Kaku Gothic ProN",
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "MS Gothic", monospace;
+  --font-title: var(--font-mono);
+
+  /* base */
+  --bg: #241915;
+  --text: #f4ecd8;
+
+  /* panel */
+  --panel-bg-top: rgba(54, 38, 29, 0.92);
+  --panel-bg-bottom: rgba(34, 24, 19, 0.92);
+  --panel-border: rgba(255, 209, 117, 0.30);
+  --panel-shadow-outer: rgba(0, 0, 0, 0.40);
+  --panel-inner-line: rgba(255, 255, 255, 0.05);
+
+  /* panel glow */
+  --panel-glow-1: rgba(255, 220, 140, 0.12);
+  --panel-glow-2: rgba(255, 220, 140, 0.08);
+  --panel-glow-3: rgba(255, 220, 140, 0.07);
+
+  /* titles */
+  --title-color: rgba(255, 235, 200, 0.95);
+
+  /* cards / menu */
+  --card-border: rgba(255, 209, 117, 0.24);
+  --card-bg: rgba(0, 0, 0, 0.14);
+  --card-bg-hover: rgba(0, 0, 0, 0.22);
+
+  /* accents */
+  --accent: rgba(255, 209, 117, 0.62);
+  --accent-strong: rgba(255, 209, 117, 0.46);
+  --accent-soft: rgba(255, 209, 117, 0.15);
+
+  /* menu text */
+  --menu-label: #ffe9bd;
+  --menu-desc: rgba(244, 236, 216, 0.88);
+  --menu-textshadow: rgba(255, 209, 117, 0.08);
+
+  /* pill */
+  --pill-border: rgba(255, 209, 117, 0.28);
+  --pill-bg: rgba(0, 0, 0, 0.18);
+  --pill-text: rgba(255, 235, 200, 0.95);
+
+  /* notice */
+  --notice-border: rgba(120, 210, 255, 0.24);
+  --notice-bg: rgba(0, 40, 55, 0.16);
+  --notice-title: rgba(200, 250, 255, 0.92);
+  --notice-body: rgba(245, 255, 255, 0.88);
+
+  /* hero */
+  --hero-border: rgba(255, 209, 117, 0.30);
+  --hero-bg: rgba(0, 0, 0, 0.12);
+  --hero-inner: rgba(255, 255, 255, 0.03);
+
+  /* footer */
+  --footer-small: rgba(244, 236, 216, 0.72);
+}
+
+/* =========================
+   2) Base styles
+   ========================= */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--bg);
+  font-family: var(--font-body);
+  line-height: 1.65;
+}
+
+/* 深夜帯に静かな表示　*/
+body.late-night {
+  filter: brightness(0.96);
+}
+/* ここまで*/
+
+#page {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 22px auto 56px;
+  padding: 0 16px;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* scanline elements exist in HTML, hidden by default */
+.scanline,
+.scanline2 {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* =========================
+   3) Panels
+   ========================= */
+.panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--panel-border);
+  background: linear-gradient(180deg, var(--panel-bg-top), var(--panel-bg-bottom));
+  box-shadow:
+    0 12px 30px var(--panel-shadow-outer),
+    inset 0 0 0 1px var(--panel-inner-line);
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.95;
+  background:
+    radial-gradient(circle at 18% 22%, var(--panel-glow-1), transparent 35%),
+    radial-gradient(circle at 82% 18%, var(--panel-glow-2), transparent 30%),
+    radial-gradient(circle at 40% 85%, var(--panel-glow-3), transparent 35%);
+}
+
+/* パネル内容を glow より前に出す */
+.panel > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   4) Titles / labels
+   ========================= */
+.panel-title {
+  position: relative;
+  z-index: 2;
+  margin: 0 0 12px;
+  color: var(--title-color);
+  font-family: var(--font-title);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.menu-label {
+  color: var(--menu-label);
+  font-family: var(--font-title);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 10px var(--menu-textshadow);
+}
+
+/* =========================
+   5) Header / hero
+   ========================= */
+#header.panel {
+  max-width: 1050px;
+  margin: 0 auto 10px;
+  padding: 12px;
+}
+
+#header {
+  padding: 0;
+  margin-bottom: 18px;
+}
+
+.header-inner {
+  display: grid;
+  gap: 8px;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+}
+
+/* 画像未読込でも高さ確保 */
+.hero-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 52px 1fr 52px;
+  align-items: center;
+  gap: 10px;
+
+  width: min(100%, 980px);
+  min-height: clamp(220px, 32vw, 420px);
+  padding: 10px;
+
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--hero-border);
+  background: var(--hero-bg);
+  box-shadow: inset 0 0 0 1px var(--hero-inner);
+
+  cursor: default;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.hero-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px var(--accent-soft);
+}
+
+.hero-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  margin: 0 auto;
+  object-fit: contain;
+  border-radius: 10px;
+  filter: contrast(1.03) saturate(1.06);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+  animation: heroBreath 8s ease-in-out infinite; /* 画像に微かな呼吸アニメーション */
+}
+
+@keyframes heroBreath {
+  0%,
+  100% {
+    filter: contrast(1.03) saturate(1.06) brightness(1);
+  }
+  50% {
+    filter: contrast(1.04) saturate(1.07) brightness(1.03);
+  }
+}
+
+/* 画像切り替え時のフェード効果 */
+#hero-banner {
+  opacity: 1;
+  transition: opacity 220ms ease;
+}
+
+#hero-banner.is-changing {
+  opacity: 0.82;
+}
+
+/* =========================
+   6) Hero navigation
+   ========================= */
+.hero-nav {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+
+  border-radius: 999px;
+  border: 1px solid var(--panel-border);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--text);
+
+  font-family: var(--font-mono);
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background 120ms ease,
+    border-color 120ms ease;
+}
+
+.hero-nav:hover {
+  transform: scale(1.05);
+  border-color: var(--accent);
+  box-shadow: 0 0 14px var(--accent-soft);
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.hero-nav:active {
+  transform: scale(0.98);
+}
+
+.hero-nav:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+/* =========================
+   7) Theme switch
+   ========================= */
+.theme-switch {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+}
+
+.theme-btn {
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--text);
+
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.10em;
+  cursor: pointer;
+
+  transition:
+      transform 120ms ease,
+      box-shadow 120ms ease,
+      border-color 120ms ease,
+      background 120ms ease;
+}
+
+.theme-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-soft);
+}
+
+/* クリックで軽く沈む */
+.theme-btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* =========================
+   8) Layout
+   ========================= */
+.grid3 {
+  display: grid;
+  grid-template-columns: 330px 1fr 420px;
+  gap: 18px;
+  align-items: start;
+}
+
+#navigation {
+  position: sticky;
+  top: 16px;
+  padding: 16px;
+}
+
+.center-col {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+#news {
+  padding: 16px;
+}
+
+.news-block+.news-block {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--panel-border);
+}
+
+.news-subtitle {
+  margin: 0 0 10px;
+  color: var(--title-color);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+#notice_content,
+#update_content {
+  min-height: 40px;
+}
+
+#notice_content:empty::before,
+#update_content:empty::before {
+  content: "読み込み中...";
+  color: var(--menu-desc);
+}
+
+.notice:first-child {
+  margin-top: 0;
+}
+
+.notice-body {
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   9) Menu cards
+   ========================= */
+.menu {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 10px;
+}
+
+.menu-item {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  padding: 12px 12px 10px;
+  border-radius: 14px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--text);
+  text-decoration: none;
+
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease;
+}
+
+.menu-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-strong);
+  background: var(--card-bg-hover);
+  box-shadow: 0 0 12px var(--accent-soft);
+}
+
+.menu-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.menu-desc {
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--menu-desc);
+}
+
+.pill {
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--pill-border);
+  background: var(--pill-bg);
+  color: var(--pill-text);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.10em;
+}
+
+.menu-item.is-main {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+}
+
+/* =========================
+   10) Info / notice
+   ========================= */
+.panel-message {
+  padding: 16px;
+}
+
+.panel-message p {
+  margin: 10px 0;
+}
+
+.site-title {
+  margin: 0 0 8px;
+  font-family: var(--font-title);
+  font-size: clamp(24px, 3.2vw, 34px);
+  line-height: 1.2;
+  color: var(--title-color);
+}
+
+
+.notice {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--notice-border);
+  background: var(--notice-bg);
+}
+
+.notice-title {
+  margin-bottom: 6px;
+  color: var(--notice-title);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+.notice-body {
+  font-size: 13px;
+  color: var(--notice-body);
+}
+
+/* =========================
+   11) Update panel
+   ========================= */
+.update-panel {
+  padding: 16px;
+}
+
+.update-panel .panel-title {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.update-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.update-label {
+  color: var(--menu-label);
+  font-weight: 700;
+}
+
+/* =========================
+   12) Footer
+   ========================= */
+.footer {
+  margin-top: 18px;
+}
+
+.footer .panel {
+  padding: 14px 16px;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.footer-left {
+  text-align: right;
+}
+
+.footer-small {
+  font-size: 12px;
+  color: var(--footer-small);
+}
+
+/* =========================
+   13) Responsive
+   ========================= */
+@media (max-width: 1180px) {
+  .grid3 {
+    grid-template-columns: 330px 1fr;
+    grid-template-areas:
+      "nav center"
+      "news news";
+  }
+
+  #navigation {
+    grid-area: nav;
+    position: static;
+  }
+
+  .center-col {
+    grid-area: center;
+  }
+
+  #news {
+    grid-area: news;
+  }
+}
+
+@media (max-width: 880px) {
+  .grid3 {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "nav"
+      "center"
+      "news";
+  }
+
+  #navigation {
+    grid-area: nav;
+    position: static;
+    z-index: 5;
+  }
+
+  .center-col {
+    grid-area: center;
+  }
+
+  #news {
+    grid-area: news;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-card {
+    grid-template-columns: 44px 1fr 44px;
+    gap: 8px;
+    min-height: 180px;
+    padding: 8px;
+  }
+
+  .hero-nav {
+    width: 44px;
+    height: 44px;
+    font-size: 26px;
+  }
+}
+
+/* =========================
+   14) Motion safety
+   ========================= */
+@media (prefers-reduced-motion: reduce) {
+  .menu-item,
+  .hero-card,
+  .theme-btn,
+  .hero-nav {
+    transition: none;
+  }
+}
+
+/* テーマ切り替えトランジション */
+html,
+body,
+.panel,
+.panel-title,
+.menu-item,
+.price-line,
+.result-box,
+.converter-row input,
+.price-btn,
+.notice-box {
+  transition:
+    background-color 0.6s ease,
+    color 0.6s ease,
+    border-color 0.6s ease,
+    box-shadow 0.8s ease,
+    text-shadow 0.8s ease;
+}
+
+/* 全体を少しゆっくり */
+html,
+body {
+  transition:
+    background-color 0.8s ease,
+    color 0.6s ease;
+}
+
+/* パネル系は少し遅れて変わる */
+.panel {
+  transition:
+    background-color 0.7s ease,
+    border-color 0.7s ease,
+    box-shadow 0.9s ease;
+}
+
+/* タイトルは少し演出強め */
+.panel-title {
+  transition:
+    color 0.6s ease,
+    border-color 0.6s ease,
+    box-shadow 0.9s ease;
+}
+
+/* 入力・ボタンはキビキビ */
+input,
+.price-btn {
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease,
+    box-shadow 0.6s ease;
+}

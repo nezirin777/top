@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>VIPS価格表 | おくたヴぃあCgiげーむす</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#241915">
+
+  <link rel="shortcut icon" href="./top_file/favicon.ico">
+
+  <link rel="stylesheet" href="./top_file/css_js/base.css">
+  <link rel="stylesheet" href="./top_file/css_js/retro.css">
+  <link rel="stylesheet" href="./top_file/css_js/cyber.css">
+  <link rel="stylesheet" href="./top_file/css_js/oldweb.css">
+  <link rel="stylesheet" href="./top_file/css_js/vips_price.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body data-theme="retro">
+  <div class="scanline"></div>
+  <div class="scanline2"></div>
+
+  <div id="page">
+    <header id="header" class="panel panel-header panel-price-header">
+      <div class="header-inner">
+        <div class="header-linkbox header-linkbox-top">
+          <a class="header-toplink" href="./">TOPページへ</a>
+        </div>
+
+        <section class="panel panel-message panel-price-hero price-hero">
+          <div class="panel-title panel-title-price" data-title="PRICE">PRICE</div>
+          <h1 class="site-title">Solana版 VIP☆STARトークン価格</h1>
+          <p>
+            GeckoTerminal から価格を取得し、VIPS ↔ 円の換算をその場で行うツールです。
+          </p>
+          <p>
+            参考値の確認や、課金額の目安計算などに使えます。
+          </p>
+        </section>
+
+        <div class="theme-switch">
+          <button id="themeToggle" class="theme-btn" type="button" aria-pressed="false">
+            THEME: <span id="themeLabel">RETRO</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="grid3 price-grid">
+      <aside id="navigation" class="panel converter-panel panel-converter">
+        <div class="panel-title panel-title-converter" data-title="CONVERTER">CONVERTER</div>
+
+        <section class="converter-group converter-group-vips-to-jpy">
+          <div class="menu-label converter-label">VIPS → 円</div>
+          <div class="menu-desc converter-desc">入力したVIPS数量を日本円へ換算します。</div>
+
+          <div class="converter-row">
+            <input type="text" id="vipsInput" value="" inputmode="decimal" autocomplete="off">
+            <span class="converter-unit">VIPS</span>
+            <span class="converter-separator">=</span>
+            <span class="result-box" id="jpyResult">0</span>
+            <span class="converter-unit">円</span>
+          </div>
+        </section>
+
+        <section class="converter-group converter-group-jpy-to-vips">
+          <div class="menu-label converter-label">円 → VIPS</div>
+          <div class="menu-desc converter-desc">入力した日本円から購入目安のVIPS数を計算します。</div>
+
+          <div class="converter-row">
+            <input type="text" id="jpyInput" value="" inputmode="decimal" autocomplete="off">
+            <span class="converter-unit">円</span>
+            <span class="converter-separator">=</span>
+            <span class="result-box" id="vipsResult">0</span>
+            <span class="converter-unit">VIPS</span>
+          </div>
+        </section>
+
+        <div class="price-actions">
+          <button type="button" class="price-btn price-btn-clear" id="clearVipsBtn">VIPSクリア</button>
+          <button type="button" class="price-btn price-btn-clear" id="clearJpyBtn">円クリア</button>
+        </div>
+
+        <nav class="menu price-menu">
+          <a class="menu-item menu-item-market-source" href="https://www.geckoterminal.com/" target="_blank" rel="noopener noreferrer">
+            <div class="menu-item-top">
+              <span class="menu-label">GeckoTerminal</span>
+              <span class="pill">market</span>
+            </div>
+            <div class="menu-desc">価格データ取得元サービス</div>
+          </a>
+        </nav>
+      </aside>
+
+      <div class="center-col price-main">
+        <section class="panel price-panel panel-market">
+          <div class="panel-title panel-title-market" data-title="MARKET">MARKET</div>
+
+          <div id="status" class="status-line">価格取得中...</div>
+
+          <div id="priceArea" class="price-summary" style="display:none;">
+            <div class="price-line price-line-unit">
+              <strong>1 VIPS</strong>
+              <span><span id="vipsUsdText">-</span> USD</span>
+              <span>/</span>
+              <span><span id="vipsJpyText">-</span> 円</span>
+            </div>
+
+            <div class="price-line price-line-10k">
+              <strong>1万 VIPS</strong>
+              <span><span id="vips10kUsdText">-</span> USD</span>
+              <span>/</span>
+              <span><span id="vips10kJpyText">-</span> 円</span>
+            </div>
+
+            <div class="price-line price-line-1m">
+              <strong>100万 VIPS</strong>
+              <span><span id="vips1mUsdText">-</span> USD</span>
+              <span>/</span>
+              <span><span id="vips1mJpyText">-</span> 円</span>
+            </div>
+
+            <div class="price-actions">
+              <button type="button" class="price-btn price-btn-reload" id="reloadBtn">価格を再取得</button>
+
+              <a class="menu-item menu-item-api-source" id="dexLink" href="#" target="_blank" rel="noopener noreferrer">
+                <div class="menu-item-top">
+                  <span class="menu-label">価格ソースを開く</span>
+                  <span class="pill">api</span>
+                </div>
+                <div class="menu-desc">取得元の詳細ページを開きます。</div>
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <aside id="news" class="panel info-panel panel-info-side">
+        <div class="panel-title panel-title-info-side" data-title="INFO">INFO</div>
+
+        <article class="notice compact notice-price-guide">
+          <div class="notice-title">価格について</div>
+          <div class="notice-body">
+            表示価格は外部APIから取得した参考値です。実際の約定価格、スリッページ、流動性の状況により差が出ることがあります。
+          </div>
+        </article>
+
+        <article class="notice notice-price-meta">
+          <div class="notice-title">詳細データ</div>
+          <div class="notice-body">
+            <div class="meta-list">
+              <div class="meta-row meta-row-network">
+                <span class="meta-label">ネットワーク</span>
+                <span class="meta-value">Solana</span>
+              </div>
+              <div class="meta-row meta-row-mint">
+                <span class="meta-label">Mint</span>
+                <span class="meta-value" id="mintText">-</span>
+              </div>
+              <div class="meta-row meta-row-provider">
+                <span class="meta-label">取得元</span>
+                <span class="meta-value" id="providerText">-</span>
+              </div>
+              <div class="meta-row meta-row-dex">
+                <span class="meta-label">DEX</span>
+                <span class="meta-value" id="dexText">-</span>
+              </div>
+              <div class="meta-row meta-row-liquidity">
+                <span class="meta-label">流動性(USD)</span>
+                <span class="meta-value" id="liquidityText">-</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <div class="panel panel-footer">
+        <div class="footer-inner">
+          <div class="footer-left">
+            <div class="footer-small">
+              <a href="http://oktavia.sakura.ne.jp/">おくたゲームスへ</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="./top_file/css_js/vips_price.js" defer></script>
+</body>
+
+</html>

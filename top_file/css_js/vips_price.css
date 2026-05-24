@@ -1,0 +1,1012 @@
+/* =========================
+   VIPS PRICE PAGE ONLY
+   共通テーマの上に重ねる専用差分
+   ========================= */
+
+/* -------------------------
+   Header
+   左: TOPリンク / 中: タイトル / 右: テーマ切替
+   ------------------------- */
+
+#header .header-inner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+}
+
+#header .header-linkbox {
+  grid-column: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-self: start;
+}
+
+#header .price-hero {
+  grid-column: 2;
+  min-width: 0;
+  margin: 0;
+  padding: 16px;
+}
+
+#header .theme-switch {
+  grid-column: 3;
+  display: flex;
+  justify-content: flex-end;
+  align-self: start;
+}
+
+#header .header-toplink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--pill-border);
+  background: var(--pill-bg);
+  color: var(--pill-text);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease;
+}
+
+#header .header-toplink:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-soft);
+  text-decoration: none;
+}
+
+#header .header-toplink:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+#header .header-toplink:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+/* -------------------------
+   Main layout
+   ------------------------- */
+
+.price-panel,
+.converter-panel,
+.info-panel {
+  padding: 16px;
+}
+
+.price-main {
+  display: grid;
+  gap: 18px;
+}
+
+.price-summary {
+  display: grid;
+  gap: 10px;
+}
+
+.price-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: baseline;
+  padding: 10px 12px;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: var(--card-bg);
+}
+
+.price-line strong {
+  color: var(--menu-label);
+}
+
+/* -------------------------
+   Converter
+   ------------------------- */
+
+.converter-group+.converter-group {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--panel-border);
+}
+
+.converter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.converter-row input[type="text"] {
+  width: 200px;
+  max-width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--text);
+  font: inherit;
+}
+
+.converter-row input[type="text"]:focus {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+.result-box {
+  display: inline-flex;
+  align-items: center;
+  min-width: 120px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--pill-border);
+  background: var(--pill-bg);
+  color: var(--pill-text);
+  font-family: var(--font-mono);
+}
+
+/* -------------------------
+   Actions
+   ------------------------- */
+
+.price-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.price-btn {
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease;
+}
+
+.price-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-soft);
+}
+
+.price-btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* -------------------------
+   Status / meta
+   ------------------------- */
+
+.status-line {
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--menu-desc);
+}
+
+.status-line.error {
+  color: #ff8f8f;
+}
+
+.meta-list {
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.meta-label {
+  color: var(--menu-label);
+  font-weight: 700;
+}
+
+.meta-value {
+  text-align: right;
+  word-break: break-all;
+}
+
+.notice.compact {
+  margin-top: 0;
+}
+
+.price-menu {
+  margin-top: 14px;
+}
+
+/* -------------------------
+   Responsive
+   ------------------------- */
+
+@media (max-width: 880px) {
+  #header .header-inner {
+    grid-template-columns: 1fr;
+  }
+
+  #header .header-linkbox,
+  #header .price-hero,
+  #header .theme-switch {
+    grid-column: auto;
+  }
+
+  #header .header-linkbox,
+  #header .theme-switch {
+    justify-content: flex-start;
+  }
+
+  #header .header-toplink,
+  #header .theme-btn {
+    width: 100%;
+  }
+
+  .converter-row {
+    align-items: stretch;
+  }
+
+  .converter-row input[type="text"] {
+    width: 100%;
+  }
+
+  .result-box {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   VIPS PRICE PAGE ONLY
+   共通テーマの上に重ねる専用差分
+   - 意味クラス対応版
+   ========================================================= */
+
+/* -------------------------
+   Header
+   ------------------------- */
+
+#header.panel-price-header .header-inner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+}
+
+#header .header-linkbox-top {
+  grid-column: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-self: start;
+}
+
+#header .panel-price-hero {
+  grid-column: 2;
+  min-width: 0;
+  margin: 0;
+  padding: 16px;
+}
+
+#header .theme-switch {
+  grid-column: 3;
+  display: flex;
+  justify-content: flex-end;
+  align-self: start;
+}
+
+#header .header-toplink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--pill-border);
+  background: var(--pill-bg);
+  color: var(--pill-text);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease;
+}
+
+#header .header-toplink:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-soft);
+  text-decoration: none;
+}
+
+#header .header-toplink:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+#header .header-toplink:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+/* -------------------------
+   Main layout
+   ------------------------- */
+
+.price-grid {
+  align-items: start;
+}
+
+.price-panel,
+.converter-panel,
+.info-panel {
+  padding: 16px;
+}
+
+.price-main {
+  display: grid;
+  gap: 18px;
+}
+
+.price-summary {
+  display: grid;
+  gap: 10px;
+}
+
+.price-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: baseline;
+  padding: 10px 12px;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: var(--card-bg);
+}
+
+.price-line strong {
+  color: var(--menu-label);
+}
+
+/* -------------------------
+   Converter
+   ------------------------- */
+
+.converter-group+.converter-group {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--panel-border);
+}
+
+.converter-label {
+  display: inline-block;
+}
+
+.converter-desc {
+  margin-top: 4px;
+}
+
+.converter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.converter-row input[type="text"] {
+  width: 200px;
+  max-width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--text);
+  font: inherit;
+}
+
+.converter-row input[type="text"]:focus {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+.converter-unit,
+.converter-separator {
+  font-family: var(--font-mono);
+}
+
+.result-box {
+  display: inline-flex;
+  align-items: center;
+  min-width: 120px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--pill-border);
+  background: var(--pill-bg);
+  color: var(--pill-text);
+  font-family: var(--font-mono);
+}
+
+/* -------------------------
+   Actions
+   ------------------------- */
+
+.price-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.price-btn {
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease;
+}
+
+.price-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-soft);
+}
+
+.price-btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* -------------------------
+   Status / meta
+   ------------------------- */
+
+.status-line {
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--menu-desc);
+}
+
+.status-line.error {
+  color: #ff8f8f;
+}
+
+.meta-list {
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.meta-label {
+  color: var(--menu-label);
+  font-weight: 700;
+}
+
+.meta-value {
+  text-align: right;
+  word-break: break-all;
+}
+
+.notice.compact {
+  margin-top: 0;
+}
+
+.price-menu {
+  margin-top: 14px;
+}
+
+/* -------------------------
+   Theme-ready role accents
+   ------------------------- */
+
+.panel-title-price,
+.panel-title-converter,
+.panel-title-market,
+.panel-title-info-side {
+  position: relative;
+}
+
+.panel-price-hero .site-title {
+  position: relative;
+}
+
+.panel-converter .converter-label,
+.panel-market .price-line strong,
+.panel-info-side .notice-title {
+  transition: color 120ms ease, text-shadow 120ms ease;
+}
+
+/* -------------------------
+   Responsive
+   ------------------------- */
+
+@media (max-width: 880px) {
+  #header.panel-price-header .header-inner {
+    grid-template-columns: 1fr;
+  }
+
+  #header .header-linkbox-top,
+  #header .panel-price-hero,
+  #header .theme-switch {
+    grid-column: auto;
+  }
+
+  #header .header-linkbox-top,
+  #header .theme-switch {
+    justify-content: flex-start;
+  }
+
+  #header .header-toplink,
+  #header .theme-btn {
+    width: 100%;
+  }
+
+  .converter-row {
+    align-items: stretch;
+  }
+
+  .converter-row input[type="text"] {
+    width: 100%;
+  }
+
+  .result-box {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   VIPS PRICE - theme tuning
+   前提:
+   - panel-title-price
+   - panel-title-converter
+   - panel-title-market
+   - panel-title-info-side
+   - panel-price-hero
+   - panel-converter
+   - panel-market
+   - panel-info-side
+   が HTML に追加されていること
+   ========================================================= */
+
+/* #########################################################
+   CYBER
+   - 小さい記号 + 発光ラインあり
+   - ラベル類は青く光る感じを維持
+   ######################################################### */
+
+body[data-theme="cyber"] {
+  --price-cyber-cyan: #7ef9ff;
+  --price-cyber-lime: #a8ff60;
+  --price-cyber-magenta: #ff57d2;
+  --price-cyber-amber: #ffca5f;
+  --price-cyber-violet: #b592ff;
+}
+
+
+/* 左アクセント */
+body[data-theme="cyber"] .panel-title-price {
+  border-left: 3px solid rgba(126, 249, 255, 0.85);
+  box-shadow: inset 0 0 12px rgba(126, 249, 255, 0.05);
+}
+
+body[data-theme="cyber"] .panel-title-converter {
+  border-left: 3px solid rgba(168, 255, 96, 0.82);
+  box-shadow: inset 0 0 12px rgba(168, 255, 96, 0.04);
+}
+
+body[data-theme="cyber"] .panel-title-market {
+  border-left: 3px solid rgba(255, 87, 210, 0.82);
+  box-shadow: inset 0 0 12px rgba(255, 87, 210, 0.05);
+}
+
+body[data-theme="cyber"] .panel-title-info-side {
+  border-left: 3px solid rgba(255, 202, 95, 0.82);
+  box-shadow: inset 0 0 12px rgba(255, 202, 95, 0.05);
+}
+
+/* 右の短い発光ライン */
+body[data-theme="cyber"] .panel-title-price::after,
+body[data-theme="cyber"] .panel-title-converter::after,
+body[data-theme="cyber"] .panel-title-market::after,
+body[data-theme="cyber"] .panel-title-info-side::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 5%;
+  height: 3px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+body[data-theme="cyber"] .panel-title-price::after {
+  background: linear-gradient(90deg, rgba(126, 249, 255, 0), rgba(126, 249, 255, 0.85));
+  box-shadow: 0 0 8px rgba(126, 249, 255, 0.30);
+}
+
+body[data-theme="cyber"] .panel-title-converter::after {
+  background: linear-gradient(90deg, rgba(168, 255, 96, 0), rgba(168, 255, 96, 0.82));
+  box-shadow: 0 0 8px rgba(168, 255, 96, 0.24);
+}
+
+body[data-theme="cyber"] .panel-title-market::after {
+  background: linear-gradient(90deg, rgba(255, 87, 210, 0), rgba(255, 87, 210, 0.88));
+  box-shadow: 0 0 8px rgba(255, 87, 210, 0.28);
+}
+
+body[data-theme="cyber"] .panel-title-info-side::after {
+  background: linear-gradient(90deg, rgba(255, 202, 95, 0), rgba(255, 202, 95, 0.88));
+  box-shadow: 0 0 8px rgba(255, 202, 95, 0.24);
+}
+
+/* Market */
+body[data-theme="cyber"] .price-line strong {
+  color: rgba(255, 235, 250, 0.96);
+}
+
+body[data-theme="cyber"] .price-line-unit strong {
+  color: var(--price-cyber-cyan);
+}
+
+body[data-theme="cyber"] .price-line-10k strong {
+  color: var(--price-cyber-amber);
+}
+
+body[data-theme="cyber"] .price-line-1m strong {
+  color: var(--price-cyber-magenta);
+}
+
+/* Buttons */
+body[data-theme="cyber"] .price-btn {
+  background: linear-gradient(180deg, rgba(18, 32, 54, 0.94), rgba(8, 16, 30, 0.94));
+  color: rgba(220, 255, 255, 0.88);
+  box-shadow:
+    0 0 0 1px rgba(126, 249, 255, 0.05) inset,
+    0 0 12px rgba(126, 249, 255, 0.03);
+}
+
+
+/* #########################################################
+   RETRO
+   ######################################################### */
+
+body[data-theme="retro"] {
+  --price-retro-gold: rgba(255, 209, 117, 0.78);
+  --price-retro-bronze: rgba(201, 140, 88, 0.72);
+  --price-retro-moss: rgba(168, 182, 120, 0.72);
+  --price-retro-wine: rgba(190, 116, 106, 0.72);
+}
+
+body[data-theme="retro"] .panel-title-price,
+body[data-theme="retro"] .panel-title-converter,
+body[data-theme="retro"] .panel-title-market,
+body[data-theme="retro"] .panel-title-info-side {
+  position: relative;
+  padding-left: 2px;
+}
+
+body[data-theme="retro"] .panel-title-price {
+  border-left: 2px solid rgba(255, 209, 117, 0.68);
+}
+
+body[data-theme="retro"] .panel-title-converter {
+  border-left: 2px solid rgba(168, 182, 120, 0.66);
+}
+
+body[data-theme="retro"] .panel-title-market {
+  border-left: 2px solid rgba(201, 140, 88, 0.66);
+}
+
+body[data-theme="retro"] .panel-title-info-side {
+  border-left: 2px solid rgba(190, 116, 106, 0.66);
+}
+
+body[data-theme="retro"] .panel-title-price::after,
+body[data-theme="retro"] .panel-title-converter::after,
+body[data-theme="retro"] .panel-title-market::after,
+body[data-theme="retro"] .panel-title-info-side::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 42px;
+  height: 1px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+body[data-theme="retro"] .panel-title-price::after {
+  background: linear-gradient(90deg, rgba(255, 209, 117, 0), rgba(255, 209, 117, 0.60));
+}
+
+body[data-theme="retro"] .panel-title-converter::after {
+  background: linear-gradient(90deg, rgba(168, 182, 120, 0), rgba(168, 182, 120, 0.56));
+}
+
+body[data-theme="retro"] .panel-title-market::after {
+  background: linear-gradient(90deg, rgba(201, 140, 88, 0), rgba(201, 140, 88, 0.58));
+}
+
+body[data-theme="retro"] .panel-title-info-side::after {
+  background: linear-gradient(90deg, rgba(190, 116, 106, 0), rgba(190, 116, 106, 0.58));
+}
+
+body[data-theme="retro"] .panel-price-hero .site-title {
+  position: relative;
+  padding-bottom: 8px;
+}
+
+body[data-theme="retro"] .panel-price-hero .site-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: min(250px, 70%);
+  height: 1px;
+  background: linear-gradient(90deg,
+      rgba(255, 209, 117, 0.45),
+      rgba(255, 209, 117, 0.08),
+      transparent);
+}
+
+body[data-theme="retro"] .converter-label {
+  color: rgba(236, 220, 190, 0.95);
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.42),
+    0 0 6px rgba(255, 209, 117, 0.05);
+}
+
+body[data-theme="retro"] .converter-group+.converter-group {
+  border-top-color: rgba(255, 209, 117, 0.10);
+}
+
+body[data-theme="retro"] .converter-row input[type="text"] {
+  background:
+    linear-gradient(180deg, rgba(255, 245, 220, 0.03), rgba(30, 18, 10, 0.14)),
+    var(--card-bg);
+  box-shadow:
+    0 1px 0 rgba(255, 240, 220, 0.03) inset,
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+body[data-theme="retro"] .result-box {
+  border-color: rgba(255, 209, 117, 0.24);
+  background:
+    linear-gradient(180deg, rgba(255, 235, 190, 0.05), rgba(60, 35, 18, 0.16));
+  color: rgba(245, 228, 198, 0.95);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 235, 200, 0.05),
+    0 1px 2px rgba(0, 0, 0, 0.10);
+}
+
+body[data-theme="retro"] .price-line {
+  border-color: rgba(255, 209, 117, 0.16);
+  background:
+    linear-gradient(180deg, rgba(255, 245, 220, 0.024), rgba(0, 0, 0, 0.08)),
+    var(--card-bg);
+}
+
+body[data-theme="retro"] .price-line-unit strong {
+  color: rgba(255, 232, 190, 0.98);
+}
+
+body[data-theme="retro"] .price-line-10k strong {
+  color: rgba(236, 214, 170, 0.95);
+}
+
+body[data-theme="retro"] .price-line-1m strong {
+  color: rgba(228, 188, 178, 0.95);
+}
+
+body[data-theme="retro"] .price-btn {
+  background:
+    linear-gradient(180deg, rgba(255, 235, 200, 0.03), rgba(0, 0, 0, 0.12));
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 220, 0.05),
+    0 2px 6px rgba(0, 0, 0, 0.14);
+}
+
+body[data-theme="retro"] .price-btn:hover {
+  box-shadow:
+    0 0 8px rgba(255, 209, 117, 0.08),
+    0 4px 8px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 240, 220, 0.06);
+}
+
+body[data-theme="retro"] .menu-item-market-source .menu-label {
+  color: rgba(236, 214, 170, 0.95);
+}
+
+body[data-theme="retro"] .menu-item-api-source .menu-label {
+  color: rgba(228, 188, 178, 0.95);
+}
+
+body[data-theme="retro"] .notice-price-guide {
+  border-color: rgba(255, 209, 117, 0.16);
+  background:
+    linear-gradient(180deg, rgba(255, 245, 225, 0.028), rgba(0, 0, 0, 0.06));
+}
+
+body[data-theme="retro"] .notice-price-meta {
+  border-color: rgba(190, 116, 106, 0.16);
+}
+
+body[data-theme="retro"] .meta-label {
+  color: rgba(245, 228, 198, 0.92);
+}
+
+/* #########################################################
+   OLDWEB
+   ######################################################### */
+
+body[data-theme="oldweb"] .panel-title-price,
+body[data-theme="oldweb"] .panel-title-converter,
+body[data-theme="oldweb"] .panel-title-market,
+body[data-theme="oldweb"] .panel-title-info-side {
+  position: relative;
+  padding-left: 10px;
+}
+
+body[data-theme="oldweb"] .panel-title-price::before,
+body[data-theme="oldweb"] .panel-title-converter::before,
+body[data-theme="oldweb"] .panel-title-market::before,
+body[data-theme="oldweb"] .panel-title-info-side::before {
+  content: "■";
+  margin-right: 6px;
+  color: #990000;
+}
+
+body[data-theme="oldweb"] .panel-title-price::after {
+  content: "　価格案内";
+  color: #666666;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+body[data-theme="oldweb"] .panel-title-converter::after {
+  content: "　換算";
+  color: #666666;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+body[data-theme="oldweb"] .panel-title-market::after {
+  content: "　市場情報";
+  color: #666666;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+body[data-theme="oldweb"] .panel-title-info-side::after {
+  content: "　参考";
+  color: #666666;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+body[data-theme="oldweb"] .header-toplink {
+  border-radius: 0;
+  border: 1px solid #8f8f8f;
+  background: linear-gradient(180deg, #fbfbfb, #d9d9d9);
+  color: #222222;
+  box-shadow:
+    1px 1px 0 rgba(255, 255, 255, 0.90) inset,
+    -1px -1px 0 rgba(0, 0, 0, 0.10) inset;
+}
+
+body[data-theme="oldweb"] .panel-price-hero .site-title {
+  border-bottom: 1px dashed #b4b4b4;
+  padding-bottom: 8px;
+}
+
+body[data-theme="oldweb"] .converter-label {
+  color: #003399;
+  font-weight: 700;
+}
+
+body[data-theme="oldweb"] .converter-row input[type="text"] {
+  border-radius: 0;
+  border: 1px solid #9a9a9a;
+  background: #f7f7f7;
+  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.75) inset;
+}
+
+body[data-theme="oldweb"] .result-box {
+  border-radius: 0;
+  border: 1px solid #aaaaaa;
+  background: #dddddd;
+  color: #333333;
+  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.70) inset;
+}
+
+body[data-theme="oldweb"] .price-line {
+  border-radius: 0;
+  border: 1px solid #c6c6c6;
+  background: #f7f7f7;
+}
+
+body[data-theme="oldweb"] .price-line strong {
+  color: #003399;
+}
+
+body[data-theme="oldweb"] .price-btn {
+  border-radius: 0;
+  border: 1px solid #8f8f8f;
+  background: linear-gradient(180deg, #fbfbfb, #d9d9d9);
+  color: #222222;
+  box-shadow:
+    1px 1px 0 rgba(255, 255, 255, 0.90) inset,
+    -1px -1px 0 rgba(0, 0, 0, 0.10) inset;
+}
+
+body[data-theme="oldweb"] .price-btn:hover {
+  background: linear-gradient(180deg, #ffffff, #e7e7e7);
+}
+
+body[data-theme="oldweb"] .menu-item-market-source .menu-label,
+body[data-theme="oldweb"] .menu-item-api-source .menu-label {
+  color: #0033cc;
+  text-decoration: underline;
+}
+
+body[data-theme="oldweb"] .notice-price-guide::before {
+  content: "参考情報";
+  display: inline-block;
+  margin-bottom: 6px;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #003399;
+  border: 1px solid #aebfe8;
+  background: #f8fbff;
+}
+
+body[data-theme="oldweb"] .meta-label {
+  color: #222222;
+}
