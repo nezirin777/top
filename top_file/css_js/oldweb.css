@@ -6,6 +6,9 @@
    - base.css の上に重ねる想定
    ========================================================= */
 
+/* =========================
+   1) テーマ変数
+   ========================= */
 body[data-theme="oldweb"] {
   --font-body: "MS UI Gothic", "MS PGothic", "MS Gothic", "Meiryo", sans-serif;
   --font-mono: "MS Gothic", "Courier New", monospace;
@@ -53,7 +56,7 @@ body[data-theme="oldweb"] {
 
   --footer-small: #555555;
 
-  /* [修正] 強化差分ブロックに散在していた --oldweb-* 変数をメインに統合 */
+  /* ロール別カラー */
   --oldweb-blue: #0033cc;
   --oldweb-blue-dark: #003399;
   --oldweb-red: #990000;
@@ -69,14 +72,16 @@ body[data-theme="oldweb"] {
 }
 
 /* =========================
-   1) 全体背景
+   2) 全体背景
+   - 薄いグレーグラデ + 横縦細線のテクスチャ
+   - scanline 系は非表示
    ========================= */
 body[data-theme="oldweb"] {
-  background-image:
-    linear-gradient(180deg, #e4e4e4 0%, #d7d7d7 100%);
+  background-image: linear-gradient(180deg, #e4e4e4 0%, #d7d7d7 100%);
   background-attachment: fixed;
 }
 
+/* 薄い横縞 + 薄い縦縞でブラウン管っぽいテクスチャ */
 body[data-theme="oldweb"]::before {
   content: "";
   position: fixed;
@@ -97,20 +102,20 @@ body[data-theme="oldweb"]::before {
       transparent 4px);
 }
 
-/* scanline 系は無効 */
 body[data-theme="oldweb"] .scanline,
 body[data-theme="oldweb"] .scanline2 {
   display: none;
 }
 
 /* =========================
-   2) 基本パネル
+   3) 基本パネル
+   - 角丸なし・境界線あり・立体シャドウ
+   - パネルごとに微妙なグラデの差異
    ========================= */
 body[data-theme="oldweb"] .panel {
   border-radius: 0;
   border: 1px solid var(--panel-border);
-  background:
-    linear-gradient(180deg, var(--panel-bg-top), var(--panel-bg-bottom));
+  background: linear-gradient(180deg, var(--panel-bg-top), var(--panel-bg-bottom));
   box-shadow:
     1px 1px 0 rgba(255, 255, 255, 0.80) inset,
     -1px -1px 0 rgba(0, 0, 0, 0.10) inset,
@@ -119,12 +124,10 @@ body[data-theme="oldweb"] .panel {
 
 body[data-theme="oldweb"] .panel::before {
   opacity: 0.45;
-  background:
-    linear-gradient(180deg,
-      rgba(255, 255, 255, 0.45),
-      transparent 24%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 24%);
 }
 
+/* 内側に薄い白枠（立体感の補強） */
 body[data-theme="oldweb"] .panel::after {
   content: "";
   position: absolute;
@@ -134,8 +137,27 @@ body[data-theme="oldweb"] .panel::after {
   mix-blend-mode: normal;
 }
 
+/* パネルごとのグラデ差 */
+body[data-theme="oldweb"] .panel-header {
+  background: linear-gradient(180deg, #f5f5f5, #dddddd);
+}
+
+body[data-theme="oldweb"] .panel-nav {
+  background: linear-gradient(180deg, #f8f8f8, #e6e6e6);
+}
+
+body[data-theme="oldweb"] .panel-info {
+  background: linear-gradient(180deg, #f9f9f9, #ebebeb);
+}
+
+body[data-theme="oldweb"] .panel-news {
+  background: linear-gradient(180deg, #f8f8f8, #e8e8e8);
+}
+
 /* =========================
-   3) 見出し
+   4) 見出し
+   - 左端に赤ライン・白/グレーグラデ背景
+   - ロールごとに ■ 記号 + 説明テキストをぶら下げる
    ========================= */
 body[data-theme="oldweb"] .panel-title {
   margin: 0 0 12px;
@@ -158,6 +180,44 @@ body[data-theme="oldweb"] .panel-title::after {
   content: none;
 }
 
+/* ロール別見出し：左に ■ 記号を追加 */
+body[data-theme="oldweb"] .panel-title-menu,
+body[data-theme="oldweb"] .panel-title-info,
+body[data-theme="oldweb"] .panel-title-news {
+  position: relative;
+  padding-left: 10px;
+}
+
+body[data-theme="oldweb"] .panel-title-menu::before,
+body[data-theme="oldweb"] .panel-title-info::before,
+body[data-theme="oldweb"] .panel-title-news::before {
+  content: "■";
+  margin-right: 6px;
+  color: var(--oldweb-red);
+}
+
+/* 右側に薄いグレーの補足テキスト */
+body[data-theme="oldweb"] .panel-title-menu::after {
+  content: "　LINK";
+  color: #666666;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+body[data-theme="oldweb"] .panel-title-info::after {
+  content: "　サイト案内";
+  color: #666666;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+body[data-theme="oldweb"] .panel-title-news::after {
+  content: "　更新履歴";
+  color: #666666;
+  font-size: 11px;
+  font-weight: 400;
+}
+
 body[data-theme="oldweb"] .site-title {
   color: #222222;
   font-family: var(--font-body);
@@ -167,7 +227,9 @@ body[data-theme="oldweb"] .site-title {
 }
 
 /* =========================
-   4) ヘッダー / ヒーロー
+   5) ヘッダー / ヒーロー
+   - 角丸なし・内側白ハイライトの古いUI枠
+   - 内側にドット点線の飾り枠
    ========================= */
 body[data-theme="oldweb"] #header.panel {
   max-width: 1050px;
@@ -190,6 +252,7 @@ body[data-theme="oldweb"] .hero-card:hover {
     -1px -1px 0 rgba(0, 0, 0, 0.08) inset;
 }
 
+/* 内側のドット点線飾り枠 */
 body[data-theme="oldweb"] .hero-card::before {
   content: "";
   position: absolute;
@@ -206,7 +269,9 @@ body[data-theme="oldweb"] .hero-card img {
 }
 
 /* =========================
-   5) ナビボタン / テーマボタン
+   6) ナビボタン / テーマボタン
+   - Windowsクラシック風：白ハイライト上、暗め左下
+   - hover でわずかに明るく、active で凹む
    ========================= */
 body[data-theme="oldweb"] .hero-nav,
 body[data-theme="oldweb"] .theme-btn {
@@ -231,6 +296,7 @@ body[data-theme="oldweb"] .theme-btn:hover {
     -1px -1px 0 rgba(0, 0, 0, 0.12) inset;
 }
 
+/* active で凹んだ見た目（ハイライト反転） */
 body[data-theme="oldweb"] .hero-nav:active,
 body[data-theme="oldweb"] .theme-btn:active {
   box-shadow:
@@ -238,19 +304,23 @@ body[data-theme="oldweb"] .theme-btn:active {
     1px 1px 0 rgba(0, 0, 0, 0.12) inset;
 }
 
+/* TOPリンクボタンも同様のクラシック風スタイル */
+body[data-theme="oldweb"] .header-toplink {
+  border-radius: 0;
+  border: 1px solid #8f8f8f;
+  background: linear-gradient(180deg, #fbfbfb, #d9d9d9);
+  color: #222222;
+  box-shadow:
+    1px 1px 0 rgba(255, 255, 255, 0.90) inset,
+    -1px -1px 0 rgba(0, 0, 0, 0.10) inset;
+}
+
 /* =========================
-   6) メニュー
+   7) メニュー
+   - 角丸なし・グレーグラデ背景・左端に ▶ 記号
+   - hover でわずかに白く、active で凹む
+   - カテゴリごとにラベル色を変える
    ========================= */
-
-/* [修正] section 6 と強化差分「メニュー全体」を統合。
-   ・.menu-item: 強化差分の値を採用 + section 6 固有の color: #111111 を追加
-   ・.menu-item:hover: section 6 は完全に上書きされていたため強化差分の値のみ残す
-   ・.menu-item.is-main: 詳細度バグを修正。section 6 の (0,3,0) が強化差分の
-     .menu-item-main (0,2,0) に勝つため、ここで強化差分が意図した値を設定する
-   ・.menu-label: section 6 固有の font-family/font-weight/text-shadow と
-     強化差分の color をまとめる
-   ・.menu-desc / .pill: 強化差分の値で統合、section 6 固有プロパティを保持 */
-
 body[data-theme="oldweb"] .menu {
   gap: 8px;
 }
@@ -264,14 +334,14 @@ body[data-theme="oldweb"] .menu-item {
   padding: 8px 10px 7px 22px;
   border-radius: 0;
   border: 1px solid #b7b7b7;
-  background:
-    linear-gradient(180deg, #fafafa, #ececec);
+  background: linear-gradient(180deg, #fafafa, #ececec);
   color: #111111;
   box-shadow:
     1px 1px 0 rgba(255, 255, 255, 0.85) inset,
     -1px -1px 0 rgba(0, 0, 0, 0.05) inset;
 }
 
+/* 左端の ▶ 記号（赤） */
 body[data-theme="oldweb"] .menu-item::before {
   content: "▶";
   position: absolute;
@@ -284,8 +354,7 @@ body[data-theme="oldweb"] .menu-item::before {
 
 body[data-theme="oldweb"] .menu-item:hover {
   transform: none;
-  background:
-    linear-gradient(180deg, #ffffff, #f3f3f3);
+  background: linear-gradient(180deg, #ffffff, #f3f3f3);
   border-color: #8f8f8f;
 }
 
@@ -299,20 +368,18 @@ body[data-theme="oldweb"] .menu-item-top {
   align-items: baseline;
 }
 
-/* [修正] .menu-item.is-main は詳細度 (0,3,0) で強化差分の .menu-item-main (0,2,0) に
-   常に勝つため、強化差分が意図した値をここで設定する */
+/* MAIN項目：水色背景 + ★ 記号 */
 body[data-theme="oldweb"] .menu-item.is-main {
   border-color: #9fb3df;
-  background:
-    linear-gradient(180deg, #fdfefe, #e9f1ff);
+  background: linear-gradient(180deg, #fdfefe, #e9f1ff);
 }
 
-/* メイン項目は ★ に変更 */
 body[data-theme="oldweb"] .menu-item-main::before {
   content: "★";
   color: #cc0000;
 }
 
+/* メニューラベル：青テキスト + 下線（リンク感） */
 body[data-theme="oldweb"] .menu-label {
   color: var(--oldweb-blue);
   font-family: var(--font-body);
@@ -332,7 +399,7 @@ body[data-theme="oldweb"] .menu-desc {
   line-height: 1.45;
 }
 
-/* 項目ごとの色分け */
+/* カテゴリごとのラベル色 */
 body[data-theme="oldweb"] .menu-item-classic .menu-label {
   color: #003399;
 }
@@ -357,7 +424,7 @@ body[data-theme="oldweb"] .menu-item-home .menu-label {
   color: #444444;
 }
 
-/* community の見分け強化 */
+/* Discord 2種：左端に色ライン + desc prefix */
 body[data-theme="oldweb"] .menu-item-community-token {
   border-left: 5px solid #4a76d1;
 }
@@ -378,6 +445,7 @@ body[data-theme="oldweb"] .menu-item-community-coin .menu-desc::before {
   font-weight: 700;
 }
 
+/* pill：角丸なし・グレー背景・細枠 */
 body[data-theme="oldweb"] .pill {
   min-width: 0;
   padding: 1px 6px 2px;
@@ -397,179 +465,10 @@ body[data-theme="oldweb"] .pill-main {
 }
 
 /* =========================
-   7) お知らせ / NEWS
+   8) INFO
+   - サイトタイトル下に破線
+   - notice枠に「管理人メモ」ラベル付き
    ========================= */
-body[data-theme="oldweb"] .news-block+.news-block {
-  border-top: 1px dashed #a8a8a8;
-}
-
-body[data-theme="oldweb"] .news-subtitle {
-  color: #003399;
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
-body[data-theme="oldweb"] .notice {
-  margin-top: 10px;
-  border-radius: 0;
-  border: 1px solid var(--notice-border);
-  background: var(--notice-bg);
-  box-shadow:
-    1px 1px 0 rgba(255, 255, 255, 0.75) inset;
-}
-
-body[data-theme="oldweb"] .notice-title {
-  color: var(--notice-title);
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-body[data-theme="oldweb"] .notice-body {
-  color: var(--notice-body);
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-/* =========================
-   8) 本文・リンク感
-   ========================= */
-
-/* [修正] section 8 と強化差分「リンク感」を統合。
-   a / a:visited は両方に全く同一のルールがあったため1箇所にまとめ、
-   強化差分にのみあった a:hover をここで追加。 */
-body[data-theme="oldweb"] a {
-  color: #0033cc;
-}
-
-body[data-theme="oldweb"] a:hover {
-  color: #cc0000;
-}
-
-body[data-theme="oldweb"] a:visited {
-  color: #663399;
-}
-
-body[data-theme="oldweb"] strong {
-  color: #8a0000;
-}
-
-/* =========================
-   9) フッター
-   ========================= */
-body[data-theme="oldweb"] .footer .panel {
-  background: linear-gradient(180deg, #ededed, #dadada);
-}
-
-body[data-theme="oldweb"] .footer-small {
-  color: #555555;
-  text-shadow: none;
-}
-
-/* =========================
-   10) モーション抑制
-   ========================= */
-@media (prefers-reduced-motion: reduce) {
-
-  body[data-theme="oldweb"] .menu-item,
-  body[data-theme="oldweb"] .hero-card,
-  body[data-theme="oldweb"] .theme-btn,
-  body[data-theme="oldweb"] .hero-nav,
-  body[data-theme="oldweb"] #hero-banner {
-    transition: none;
-    animation: none;
-  }
-}
-
-/* =========================================================
-   強化差分
-   ---------------------------------------------------------
-   [修正] 元ファイルでは以下の問題があったため整理済み:
-   ・--oldweb-* 変数 → メインブロックへ移動
-   ・「メニュー全体」セクション → section 6 に統合、ここから削除
-   ・「リンク感」セクション → section 8 に統合、ここから削除
-   ・.panel-footer: 2箇所に分散していた background / position を統合。
-     さらに background は .footer .panel（詳細度 0,3,0）に
-     常に負けて適用されないため削除
-   ========================================================= */
-
-/* =========================
-   パネルごとの背景差
-   ========================= */
-
-body[data-theme="oldweb"] .panel-header {
-  background:
-    linear-gradient(180deg, #f5f5f5, #dddddd);
-}
-
-body[data-theme="oldweb"] .panel-nav {
-  background:
-    linear-gradient(180deg, #f8f8f8, #e6e6e6);
-}
-
-body[data-theme="oldweb"] .panel-info {
-  background:
-    linear-gradient(180deg, #f9f9f9, #ebebeb);
-}
-
-body[data-theme="oldweb"] .panel-news {
-  background:
-    linear-gradient(180deg, #f8f8f8, #e8e8e8);
-}
-
-/* =========================
-   見出しの役割差
-   ========================= */
-
-body[data-theme="oldweb"] .panel-title-menu,
-body[data-theme="oldweb"] .panel-title-info,
-body[data-theme="oldweb"] .panel-title-news {
-  position: relative;
-  padding-left: 10px;
-}
-
-body[data-theme="oldweb"] .panel-title-menu::before,
-body[data-theme="oldweb"] .panel-title-info::before,
-body[data-theme="oldweb"] .panel-title-news::before {
-  content: "■";
-  margin-right: 6px;
-  color: var(--oldweb-red);
-}
-
-body[data-theme="oldweb"] .panel-title-menu::after {
-  content: "　LINK";
-  color: #666666;
-  font-size: 11px;
-  font-weight: 400;
-}
-
-body[data-theme="oldweb"] .panel-title-info::after {
-  content: "　サイト案内";
-  color: #666666;
-  font-size: 11px;
-  font-weight: 400;
-}
-
-body[data-theme="oldweb"] .panel-title-news::after {
-  content: "　更新履歴";
-  color: #666666;
-  font-size: 11px;
-  font-weight: 400;
-}
-
-/* =========================
-   ヒーロー
-   ========================= */
-
-/* hero-card::after は .panel::after と競合するため使用しない */
-
-/* =========================
-   INFO
-   ========================= */
-
 body[data-theme="oldweb"] .panel-info .site-title {
   border-bottom: 1px dashed #b4b4b4;
   padding-bottom: 8px;
@@ -579,6 +478,7 @@ body[data-theme="oldweb"] .panel-info p {
   line-height: 1.75;
 }
 
+/* notice-info：「管理人メモ」ラベルを ::before で追加 */
 body[data-theme="oldweb"] .notice-info {
   position: relative;
   border-color: #b9c9ea;
@@ -597,21 +497,24 @@ body[data-theme="oldweb"] .notice-info::before {
 }
 
 /* =========================
-   NEWS
+   9) NEWS / お知らせ / 更新情報
    ========================= */
 
-body[data-theme="oldweb"] .news-block-notice+.news-block-update {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px dashed #a6a6a6;
+/* セクション間の区切り線 */
+body[data-theme="oldweb"] .news-block+.news-block {
+  border-top: 1px dashed #a8a8a8;
 }
 
-body[data-theme="oldweb"] .news-subtitle-notice,
-body[data-theme="oldweb"] .news-subtitle-update {
+/* 小見出し：青太字 */
+body[data-theme="oldweb"] .news-subtitle {
+  color: #003399;
+  font-family: var(--font-body);
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
 }
 
+/* ■ 記号でロール差 */
 body[data-theme="oldweb"] .news-subtitle-notice::before {
   content: "■ ";
   color: var(--oldweb-blue-dark);
@@ -622,6 +525,37 @@ body[data-theme="oldweb"] .news-subtitle-update::before {
   color: var(--oldweb-red);
 }
 
+/* 更新セクションの区切りマージン */
+body[data-theme="oldweb"] .news-block-notice+.news-block-update {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed #a6a6a6;
+}
+
+/* お知らせ枠 */
+body[data-theme="oldweb"] .notice {
+  margin-top: 10px;
+  border-radius: 0;
+  border: 1px solid var(--notice-border);
+  background: var(--notice-bg);
+  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.75) inset;
+}
+
+body[data-theme="oldweb"] .notice-title {
+  color: var(--notice-title);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+body[data-theme="oldweb"] .notice-body {
+  color: var(--notice-body);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* 個別notice枠の色調整 */
 body[data-theme="oldweb"] #notice_content .notice {
   margin-top: 8px;
   background: #f9fcff;
@@ -632,6 +566,19 @@ body[data-theme="oldweb"] #notice_content .notice-title {
   color: var(--oldweb-blue-dark);
 }
 
+/* notice-price-guide に「参考情報」ラベルを付与 */
+body[data-theme="oldweb"] .notice-price-guide::before {
+  content: "参考情報";
+  display: inline-block;
+  margin-bottom: 6px;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #003399;
+  border: 1px solid #aebfe8;
+  background: #f8fbff;
+}
+
+/* 更新情報：左端 ● の行スタイル */
 body[data-theme="oldweb"] #update_content {
   margin-top: 6px;
 }
@@ -659,12 +606,45 @@ body[data-theme="oldweb"] .update-label {
 }
 
 /* =========================
-   フッター
+   10) 本文・リンク感
+   - 青リンク・紫訪問済み・赤hover（古いサイト定番配色）
    ========================= */
+body[data-theme="oldweb"] a {
+  color: #0033cc;
+}
 
-/* [修正] 元は「パネル背景差」と「フッター」の2箇所に分散していた
-   .panel-footer 宣言を1箇所に統合。
-   なお background は .footer .panel（詳細度 0,3,0）に常に負けるため削除。 */
+body[data-theme="oldweb"] a:hover {
+  color: #cc0000;
+}
+
+body[data-theme="oldweb"] a:visited {
+  color: #663399;
+}
+
+/* menu-label はリンクっぽく見せているので underline 維持（section 7 参照） */
+body[data-theme="oldweb"] .menu-item-market-source .menu-label,
+body[data-theme="oldweb"] .menu-item-api-source .menu-label {
+  color: #0033cc;
+  text-decoration: underline;
+}
+
+body[data-theme="oldweb"] strong {
+  color: #8a0000;
+}
+
+/* =========================
+   11) フッター
+   ========================= */
+body[data-theme="oldweb"] .footer .panel {
+  background: linear-gradient(180deg, #ededed, #dadada);
+}
+
+body[data-theme="oldweb"] .footer-small {
+  color: #555555;
+  text-shadow: none;
+}
+
+/* 右下に "Since 2000s ?" の小さな刻印 */
 body[data-theme="oldweb"] .panel-footer {
   position: relative;
 }
@@ -676,4 +656,19 @@ body[data-theme="oldweb"] .panel-footer::after {
   bottom: 10px;
   color: #666666;
   font-size: 11px;
+}
+
+/* =========================
+   12) モーション軽減
+   ========================= */
+@media (prefers-reduced-motion: reduce) {
+
+  body[data-theme="oldweb"] .menu-item,
+  body[data-theme="oldweb"] .hero-card,
+  body[data-theme="oldweb"] .theme-btn,
+  body[data-theme="oldweb"] .hero-nav,
+  body[data-theme="oldweb"] #hero-banner {
+    transition: none;
+    animation: none;
+  }
 }

@@ -5,6 +5,9 @@
    - HUD / scanline / glitch / neon
    ========================================================= */
 
+/* =========================
+   1) テーマ変数
+   ========================= */
 body[data-theme="cyber"] {
   --font-body: "Roboto Mono", ui-monospace, monospace;
   --font-title: "Orbitron", "Roboto Mono", monospace;
@@ -51,7 +54,7 @@ body[data-theme="cyber"] {
 
   --footer-small: rgba(245, 250, 255, 0.72);
 
-  /* [修正] 採用版強化差分ブロックに散在していた --cyber-* 変数をメインに統合 */
+  /* ロール別アクセントカラー */
   --cyber-cyan: #7ef9ff;
   --cyber-magenta: #ff57d2;
   --cyber-violet: #b592ff;
@@ -59,13 +62,17 @@ body[data-theme="cyber"] {
   --cyber-amber: #ffca5f;
   --cyber-red: #ff6b7a;
 
+  /* 本文全体にうっすらグロー */
   text-shadow:
     0 0 6px rgba(0, 255, 240, 0.28),
     0 0 16px rgba(255, 60, 220, 0.14);
 }
 
 /* =========================
-   1) cyber background overlay
+   2) 背景オーバーレイ
+   - シアン/マゼンタ/バイオレットのグラデ放射
+   - 細いスキャンライン横縞 + グリッド縦横線
+   - 斜め方向のマゼンタ細線
    ========================= */
 body[data-theme="cyber"]::before {
   content: "";
@@ -95,18 +102,33 @@ body[data-theme="cyber"]::before {
       transparent 18px);
 
   background-size:
-    auto,
-    auto,
-    auto,
-    auto,
+    auto, auto, auto, auto,
     auto,
     52px 52px,
     52px 52px,
     auto;
 }
 
+/* 画面全体を横切るシアン/マゼンタのスキャンバー（::after） */
+body[data-theme="cyber"]::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 9998;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(0, 255, 240, 0.9),
+      transparent);
+  animation: cyberScan 7s linear infinite;
+}
+
 /* =========================
-   2) scanlines
+   3) スキャンライン
+   - .scanline  : シアン縦スキャン
+   - .scanline2 : マゼンタ逆スキャン（速度違い）
    ========================= */
 body[data-theme="cyber"] .scanline,
 body[data-theme="cyber"] .scanline2 {
@@ -130,7 +152,10 @@ body[data-theme="cyber"] .scanline2 {
 }
 
 /* =========================
-   3) panels
+   4) パネル
+   - 多重グロー + 内側シアン縞
+   - 四隅にシアン/マゼンタ/ライム/バイオレットの角飾りライン
+   - ゆるやかな輝度パルスアニメーション
    ========================= */
 body[data-theme="cyber"] .panel {
   isolation: isolate;
@@ -141,8 +166,10 @@ body[data-theme="cyber"] .panel {
     0 0 60px rgba(170, 90, 255, 0.10),
     inset 0 0 0 1px rgba(0, 255, 240, 0.18);
   backdrop-filter: blur(10px);
+  animation: cyberPulse 5.5s ease-in-out infinite;
 }
 
+/* 内側グロー + パネル全面に細い横縞 */
 body[data-theme="cyber"] .panel::before {
   background:
     radial-gradient(circle at 14% 16%, rgba(0, 255, 240, 0.28), transparent 44%),
@@ -156,6 +183,7 @@ body[data-theme="cyber"] .panel::before {
   opacity: 0.88;
 }
 
+/* 四隅の角飾り：各辺140pxの短いネオンライン */
 body[data-theme="cyber"] .panel::after {
   content: "";
   position: absolute;
@@ -174,7 +202,11 @@ body[data-theme="cyber"] .panel::after {
 }
 
 /* =========================
-   4) titles
+   5) パネルタイトル
+   - 点滅フリッカーアニメーション
+   - グロー付きテキストシャドウ
+   - 下部にシアン→マゼンタのグラデライン
+   - ::after で同テキストをずらして重ねグリッチ感
    ========================= */
 body[data-theme="cyber"] .panel-title {
   letter-spacing: 0.22em;
@@ -185,6 +217,7 @@ body[data-theme="cyber"] .panel-title {
     0 0 40px rgba(170, 90, 255, 0.16);
 }
 
+/* タイトル下の細いグラデライン */
 body[data-theme="cyber"] .panel-title::before {
   content: "";
   position: absolute;
@@ -198,6 +231,7 @@ body[data-theme="cyber"] .panel-title::before {
       transparent);
 }
 
+/* テキストをわずかにずらして重ねるグリッチ感 */
 body[data-theme="cyber"] .panel-title::after {
   content: attr(data-title);
   position: absolute;
@@ -211,17 +245,65 @@ body[data-theme="cyber"] .panel-title::after {
     1px 0 rgba(255, 60, 220, 0.45);
 }
 
-/* =========================
-   5) animated pulse
-   ========================= */
-body[data-theme="cyber"] .panel,
-body[data-theme="cyber"] .hero-card,
-body[data-theme="cyber"] .theme-btn {
-  animation: cyberPulse 5.5s ease-in-out infinite;
+/* ---- パネルタイトルのロール別アクセント ---- */
+
+/* 左端のカラーライン + 内側グロー */
+body[data-theme="cyber"] .panel-title-menu {
+  padding-left: 12px;
+  padding-right: 12px;
+  border-left: 3px solid rgba(126, 249, 255, 0.85);
+  box-shadow: inset 0 0 12px rgba(126, 249, 255, 0.05);
+}
+
+body[data-theme="cyber"] .panel-title-info {
+  padding-left: 12px;
+  padding-right: 12px;
+  border-left: 3px solid rgba(168, 255, 96, 0.82);
+  box-shadow: inset 0 0 12px rgba(168, 255, 96, 0.04);
+}
+
+body[data-theme="cyber"] .panel-title-news {
+  padding-left: 12px;
+  padding-right: 12px;
+  border-left: 3px solid rgba(255, 87, 210, 0.82);
+  box-shadow: inset 0 0 12px rgba(255, 87, 210, 0.05);
+}
+
+/* 右端の短い発光ライン（::before / ::after をグリッチで使っているため高さ付き帯で表現） */
+body[data-theme="cyber"] .panel-title-menu::after,
+body[data-theme="cyber"] .panel-title-info::after,
+body[data-theme="cyber"] .panel-title-news::after {
+  /* グリッチ用 ::after を上書きして役割ライン専用にする */
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 10%;
+  height: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+body[data-theme="cyber"] .panel-title-menu::after {
+  background: linear-gradient(90deg, rgba(126, 249, 255, 0), rgba(126, 249, 255, 0.85));
+  box-shadow: 0 0 8px rgba(126, 249, 255, 0.30);
+}
+
+body[data-theme="cyber"] .panel-title-info::after {
+  background: linear-gradient(90deg, rgba(168, 255, 96, 0), rgba(168, 255, 96, 0.82));
+  box-shadow: 0 0 8px rgba(168, 255, 96, 0.24);
+}
+
+body[data-theme="cyber"] .panel-title-news::after {
+  background: linear-gradient(90deg, rgba(255, 87, 210, 0), rgba(255, 87, 210, 0.88));
+  box-shadow: 0 0 8px rgba(255, 87, 210, 0.28);
 }
 
 /* =========================
-   6) menu effects
+   6) メニューカード
+   - 内側シアングロー
+   - hover: 光沢スウィープ（::before）+ 横断ライン（::after）
+   - hover: 浮き上がり + マゼンタ多重グロー
    ========================= */
 body[data-theme="cyber"] .menu-item {
   box-shadow:
@@ -229,6 +311,7 @@ body[data-theme="cyber"] .menu-item {
     0 0 18px rgba(0, 255, 240, 0.06);
 }
 
+/* hover時に流れるレインボー光沢 */
 body[data-theme="cyber"] .menu-item::before {
   content: "";
   position: absolute;
@@ -245,6 +328,7 @@ body[data-theme="cyber"] .menu-item::before {
       transparent 72%);
 }
 
+/* hover時に中央を横切る発光ライン */
 body[data-theme="cyber"] .menu-item::after {
   content: "";
   position: absolute;
@@ -284,274 +368,9 @@ body[data-theme="cyber"] .menu-item:hover {
     inset 0 0 0 1px rgba(255, 60, 220, 0.12);
 }
 
-/* =========================
-   7) hero
-   ========================= */
-body[data-theme="cyber"] .hero-card {
-  box-shadow:
-    0 0 24px rgba(0, 255, 240, 0.18),
-    0 0 42px rgba(255, 60, 220, 0.14),
-    inset 0 0 0 1px rgba(0, 255, 240, 0.16);
-}
+/* ---- メニュー項目のカテゴリ別ラベル色 ---- */
 
-body[data-theme="cyber"] .hero-card::before {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  z-index: 1;
-  pointer-events: none;
-  border-radius: 10px;
-  background: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.06),
-      transparent 20%,
-      transparent 80%,
-      rgba(0, 255, 240, 0.06));
-}
-
-body[data-theme="cyber"] .hero-card img {
-  filter: contrast(1.06) saturate(1.12) brightness(1.02);
-}
-
-/* =========================
-   8) hero nav
-   ========================= */
-body[data-theme="cyber"] .hero-nav {
-  border-radius: 12px;
-  border-color: rgba(0, 255, 240, 0.38);
-  background: linear-gradient(180deg,
-      rgba(0, 255, 240, 0.12),
-      rgba(255, 60, 220, 0.10));
-  box-shadow:
-    0 0 16px rgba(0, 255, 240, 0.12),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  text-shadow:
-    0 0 10px rgba(0, 255, 240, 0.65),
-    0 0 18px rgba(255, 60, 220, 0.25);
-}
-
-body[data-theme="cyber"] .hero-nav:hover {
-  border-color: rgba(255, 60, 220, 0.58);
-  box-shadow:
-    0 0 24px rgba(0, 255, 240, 0.20),
-    0 0 26px rgba(255, 60, 220, 0.16),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-}
-
-/* =========================
-   9) theme button
-   ========================= */
-body[data-theme="cyber"] .theme-btn {
-  background: rgba(0, 255, 240, 0.06);
-  border-color: rgba(0, 255, 240, 0.34);
-  box-shadow:
-    0 0 16px rgba(0, 255, 240, 0.14),
-    0 0 18px rgba(255, 60, 220, 0.10),
-    inset 0 0 0 1px rgba(0, 255, 240, 0.14);
-}
-
-body[data-theme="cyber"] .theme-btn:hover {
-  border-color: rgba(255, 60, 220, 0.54);
-  box-shadow:
-    0 0 24px rgba(0, 255, 240, 0.20),
-    0 0 24px rgba(255, 60, 220, 0.18),
-    0 0 34px rgba(170, 90, 255, 0.14),
-    inset 0 0 0 1px rgba(255, 60, 220, 0.12);
-}
-
-/* =========================
-   10) extra scan bar
-   ========================= */
-body[data-theme="cyber"]::after {
-  content: "";
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: 9998;
-  height: 2px;
-  pointer-events: none;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(0, 255, 240, 0.9),
-      transparent);
-  animation: cyberScan 7s linear infinite;
-}
-
-/* =========================
-   11) reduced motion
-   ========================= */
-@media (prefers-reduced-motion: reduce) {
-
-  body[data-theme="cyber"] .menu-item::before,
-  body[data-theme="cyber"] .menu-item::after {
-    transition: none;
-  }
-
-  body[data-theme="cyber"] .scanline,
-  body[data-theme="cyber"] .scanline2,
-  body[data-theme="cyber"] .panel,
-  body[data-theme="cyber"] .hero-card,
-  body[data-theme="cyber"] .theme-btn,
-  body[data-theme="cyber"] .panel-title,
-  body[data-theme="cyber"]::after {
-    animation: none;
-  }
-}
-
-/* =========================
-   12) keyframes
-   ========================= */
-@keyframes scan {
-  0% {
-    transform: translateY(-100%);
-  }
-
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-@keyframes scan2 {
-  0% {
-    transform: translateY(-100%);
-  }
-
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-@keyframes cyberScan {
-  0% {
-    top: -5%;
-  }
-
-  100% {
-    top: 105%;
-  }
-}
-
-@keyframes cyberPulse {
-
-  0%,
-  100% {
-    filter: brightness(1);
-  }
-
-  50% {
-    filter: brightness(1.035);
-  }
-}
-
-@keyframes cyberTitleFlicker {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  8% {
-    opacity: 0.96;
-  }
-
-  9% {
-    opacity: 0.82;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  48% {
-    opacity: 1;
-  }
-
-  49% {
-    opacity: 0.88;
-  }
-
-  50% {
-    opacity: 1;
-  }
-}
-
-/* =========================================================
-   採用版 強化差分
-   ---------------------------------------------------------
-   [修正] 元ファイルには「軽量強化差分」と「採用版強化差分」の
-   2ブロックが存在したが、軽量強化差分の全12ルールが
-   採用版強化差分に同一または同値で上書きされており、
-   完全に死んだコードだったため削除。採用版に一本化。
-   また --cyber-* 変数はメインブロックへ移動済み。
-   ========================================================= */
-
-/* =========================
-   パネルタイトルの役割差
-   文字は増やさず、色・線・角飾りだけ
-   ========================= */
-
-body[data-theme="cyber"] .panel-title-menu,
-body[data-theme="cyber"] .panel-title-info,
-body[data-theme="cyber"] .panel-title-news {
-  position: relative;
-  padding-left: 12px;
-  padding-right: 12px;
-}
-
-/* 左のアクセントライン */
-body[data-theme="cyber"] .panel-title-menu {
-  border-left: 3px solid rgba(126, 249, 255, 0.85);
-  box-shadow: inset 0 0 12px rgba(126, 249, 255, 0.05);
-}
-
-body[data-theme="cyber"] .panel-title-info {
-  border-left: 3px solid rgba(168, 255, 96, 0.82);
-  box-shadow: inset 0 0 12px rgba(168, 255, 96, 0.04);
-}
-
-body[data-theme="cyber"] .panel-title-news {
-  border-left: 3px solid rgba(255, 87, 210, 0.82);
-  box-shadow: inset 0 0 12px rgba(255, 87, 210, 0.05);
-}
-
-/* 右側の細い光ライン */
-body[data-theme="cyber"] .panel-title-menu::after,
-body[data-theme="cyber"] .panel-title-info::after,
-body[data-theme="cyber"] .panel-title-news::after {
-  content: "";
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  width: 10%;
-  height: 10px;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-body[data-theme="cyber"] .panel-title-menu::after {
-  background: linear-gradient(90deg,
-      rgba(126, 249, 255, 0),
-      rgba(126, 249, 255, 0.85));
-  box-shadow: 0 0 8px rgba(126, 249, 255, 0.30);
-}
-
-body[data-theme="cyber"] .panel-title-info::after {
-  background: linear-gradient(90deg,
-      rgba(168, 255, 96, 0),
-      rgba(168, 255, 96, 0.82));
-  box-shadow: 0 0 8px rgba(168, 255, 96, 0.24);
-}
-
-body[data-theme="cyber"] .panel-title-news::after {
-  background: linear-gradient(90deg,
-      rgba(255, 87, 210, 0),
-      rgba(255, 87, 210, 0.88));
-  box-shadow: 0 0 8px rgba(255, 87, 210, 0.28);
-}
-
-/* =========================
-   メニュー項目の色分け
-   ========================= */
-
+/* メインラベル：白＋シアン/マゼンタ二重グロー */
 body[data-theme="cyber"] .menu-item-main .menu-label {
   color: #ffffff;
   text-shadow:
@@ -583,7 +402,7 @@ body[data-theme="cyber"] .menu-item-home .menu-label {
   color: rgba(220, 240, 245, 0.88);
 }
 
-/* Discord 2種の区別 */
+/* Discord 2種：左ライン + ラベル色 + desc prefix */
 body[data-theme="cyber"] .menu-item-community-token {
   border-left: 2px solid rgba(126, 249, 255, 0.50);
 }
@@ -614,6 +433,61 @@ body[data-theme="cyber"] .menu-item-community-coin .menu-desc::before {
   letter-spacing: 0.06em;
 }
 
+/* ---- menu-label の共通サイバー感 ---- */
+
+/* 微グロー + 下線 + 左側の小ボックス記号 */
+body[data-theme="cyber"] .menu-item .menu-label {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 2px;
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 6px rgba(126, 249, 255, 0.10);
+}
+
+/* タイトル直下の細い発光アンダーライン */
+body[data-theme="cyber"] .menu-item .menu-label::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.28;
+  box-shadow: 0 0 6px currentColor;
+  transform: scaleX(0.92);
+  transform-origin: left center;
+}
+
+/* 左端の小さなネオンボックス記号 */
+body[data-theme="cyber"] .menu-item .menu-label::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  vertical-align: middle;
+  border: 1px solid currentColor;
+  box-shadow: 0 0 8px currentColor;
+  opacity: 0.65;
+}
+
+/* hover 時: グロー強化 + アンダーライン拡大 */
+body[data-theme="cyber"] .menu-item:hover .menu-label {
+  text-shadow:
+    0 0 8px currentColor,
+    0 0 14px rgba(255, 255, 255, 0.06);
+}
+
+body[data-theme="cyber"] .menu-item:hover .menu-label::after {
+  opacity: 0.55;
+  box-shadow: 0 0 8px currentColor, 0 0 14px currentColor;
+  transform: scaleX(1);
+}
+
+/* ---- pill バリアント ---- */
+
+/* MAINラベル：白文字 + グロー */
 body[data-theme="cyber"] .pill-main {
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.24);
@@ -623,9 +497,95 @@ body[data-theme="cyber"] .pill-main {
 }
 
 /* =========================
-   NEWS 小見出し
+   7) ヒーローカード
+   - シアン/マゼンタ多重グロー
+   - 内側に上下グラデオーバーレイ
+   - 画像はコントラスト/彩度を少し上げる
+   ========================= */
+body[data-theme="cyber"] .hero-card {
+  box-shadow:
+    0 0 24px rgba(0, 255, 240, 0.18),
+    0 0 42px rgba(255, 60, 220, 0.14),
+    inset 0 0 0 1px rgba(0, 255, 240, 0.16);
+  animation: cyberPulse 5.5s ease-in-out infinite;
+}
+
+/* 上下のグラデオーバーレイ（画像に奥行き感） */
+body[data-theme="cyber"] .hero-card::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 10px;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.06),
+      transparent 20%,
+      transparent 80%,
+      rgba(0, 255, 240, 0.06));
+}
+
+body[data-theme="cyber"] .hero-card img {
+  filter: contrast(1.06) saturate(1.12) brightness(1.02);
+}
+
+/* =========================
+   8) ヒーローナビゲーション
+   - 角丸12px（サイバー角）
+   - シアン枠 + シアン/マゼンタグラデ背景
+   - テキストにグロー
+   ========================= */
+body[data-theme="cyber"] .hero-nav {
+  border-radius: 12px;
+  border-color: rgba(0, 255, 240, 0.38);
+  background: linear-gradient(180deg,
+      rgba(0, 255, 240, 0.12),
+      rgba(255, 60, 220, 0.10));
+  box-shadow:
+    0 0 16px rgba(0, 255, 240, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  text-shadow:
+    0 0 10px rgba(0, 255, 240, 0.65),
+    0 0 18px rgba(255, 60, 220, 0.25);
+}
+
+body[data-theme="cyber"] .hero-nav:hover {
+  border-color: rgba(255, 60, 220, 0.58);
+  box-shadow:
+    0 0 24px rgba(0, 255, 240, 0.20),
+    0 0 26px rgba(255, 60, 220, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* =========================
+   9) テーマ切り替えボタン
+   - シアン枠 + 多重グロー
+   - hover: マゼンタ強化
+   ========================= */
+body[data-theme="cyber"] .theme-btn {
+  background: rgba(0, 255, 240, 0.06);
+  border-color: rgba(0, 255, 240, 0.34);
+  box-shadow:
+    0 0 16px rgba(0, 255, 240, 0.14),
+    0 0 18px rgba(255, 60, 220, 0.10),
+    inset 0 0 0 1px rgba(0, 255, 240, 0.14);
+  animation: cyberPulse 5.5s ease-in-out infinite;
+}
+
+body[data-theme="cyber"] .theme-btn:hover {
+  border-color: rgba(255, 60, 220, 0.54);
+  box-shadow:
+    0 0 24px rgba(0, 255, 240, 0.20),
+    0 0 24px rgba(255, 60, 220, 0.18),
+    0 0 34px rgba(170, 90, 255, 0.14),
+    inset 0 0 0 1px rgba(255, 60, 220, 0.12);
+}
+
+/* =========================
+   10) NEWS / お知らせ / 更新情報
    ========================= */
 
+/* NEWS 小見出し：モノスペース大文字 + カラー記号 */
 body[data-theme="cyber"] .news-subtitle-notice,
 body[data-theme="cyber"] .news-subtitle-update {
   display: inline-flex;
@@ -645,19 +605,21 @@ body[data-theme="cyber"] .news-subtitle-update {
   color: rgba(255, 190, 220, 0.88);
 }
 
+/* お知らせ：シアン ◉ アイコン */
 body[data-theme="cyber"] .news-subtitle-notice::before {
   content: "◉";
   color: var(--cyber-cyan);
   text-shadow: 0 0 10px rgba(126, 249, 255, 0.5);
 }
 
+/* 更新情報：マゼンタ ▣ アイコン */
 body[data-theme="cyber"] .news-subtitle-update::before {
   content: "▣";
   color: var(--cyber-magenta);
   text-shadow: 0 0 10px rgba(255, 87, 210, 0.45);
 }
 
-/* お知らせ枠は少しだけ強化 */
+/* お知らせ枠：シアン細枠 + 内側グロー */
 body[data-theme="cyber"] #notice_content .notice {
   border-color: rgba(126, 249, 255, 0.20);
   box-shadow:
@@ -665,7 +627,7 @@ body[data-theme="cyber"] #notice_content .notice {
     0 0 12px rgba(126, 249, 255, 0.04);
 }
 
-/* 更新情報はログ表示っぽく強化 */
+/* 更新情報：ターミナルログ風の行スタイル */
 body[data-theme="cyber"] #update_content {
   margin-top: 8px;
 }
@@ -682,6 +644,7 @@ body[data-theme="cyber"] .update-row {
     0 0 12px rgba(255, 87, 210, 0.04);
 }
 
+/* 左端の ">" プロンプト記号 */
 body[data-theme="cyber"] .update-row::before {
   content: ">";
   position: absolute;
@@ -699,57 +662,104 @@ body[data-theme="cyber"] .update-label {
 }
 
 /* =========================
-   menu-label のサイバー感強化
-   - 微グロー、細い発光ライン、hover強化
+   11) モーション軽減
+   ========================= */
+@media (prefers-reduced-motion: reduce) {
+
+  body[data-theme="cyber"] .menu-item::before,
+  body[data-theme="cyber"] .menu-item::after {
+    transition: none;
+  }
+
+  body[data-theme="cyber"] .scanline,
+  body[data-theme="cyber"] .scanline2,
+  body[data-theme="cyber"] .panel,
+  body[data-theme="cyber"] .hero-card,
+  body[data-theme="cyber"] .theme-btn,
+  body[data-theme="cyber"] .panel-title,
+  body[data-theme="cyber"]::after {
+    animation: none;
+  }
+}
+
+/* =========================
+   12) キーフレーム
    ========================= */
 
-body[data-theme="cyber"] .menu-item .menu-label {
-  position: relative;
-  display: inline-block;
-  padding-bottom: 2px;
-  letter-spacing: 0.06em;
-  text-shadow:
-    0 0 6px rgba(126, 249, 255, 0.10);
+/* scanline の縦移動 */
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
 }
 
-/* タイトル下の細い発光ライン */
-body[data-theme="cyber"] .menu-item .menu-label::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  width: 100%;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.28;
-  box-shadow: 0 0 6px currentColor;
-  transform: scaleX(0.92);
-  transform-origin: left center;
+@keyframes scan2 {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
 }
 
-/* hover時だけ少し反応を強める */
-body[data-theme="cyber"] .menu-item:hover .menu-label {
-  text-shadow:
-    0 0 8px currentColor,
-    0 0 14px rgba(255, 255, 255, 0.06);
+/* 全体スキャンバーの縦移動 */
+@keyframes cyberScan {
+  0% {
+    top: -5%;
+  }
+
+  100% {
+    top: 105%;
+  }
 }
 
-body[data-theme="cyber"] .menu-item:hover .menu-label::after {
-  opacity: 0.55;
-  box-shadow:
-    0 0 8px currentColor,
-    0 0 14px currentColor;
-  transform: scaleX(1);
+/* パネル全体のゆるやかな輝度パルス */
+@keyframes cyberPulse {
+
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.035);
+  }
 }
 
-body[data-theme="cyber"] .menu-item .menu-label::before {
-  content: "";
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: 7px;
-  vertical-align: middle;
-  border: 1px solid currentColor;
-  box-shadow: 0 0 8px currentColor;
-  opacity: 0.65;
+/* パネルタイトルの不規則フリッカー */
+@keyframes cyberTitleFlicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  8% {
+    opacity: 0.96;
+  }
+
+  9% {
+    opacity: 0.82;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  48% {
+    opacity: 1;
+  }
+
+  49% {
+    opacity: 0.88;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }

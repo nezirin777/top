@@ -6,6 +6,9 @@
    - base.css の上に重ねる
    ========================================================= */
 
+/* =========================
+   1) テーマ変数
+   ========================= */
 body[data-theme="retro"] {
   --font-body: "MS PGothic", "MS Gothic", "Meiryo", "Hiragino Kaku Gothic ProN",
     ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -53,7 +56,7 @@ body[data-theme="retro"] {
 
   --footer-small: rgba(244, 236, 216, 0.72);
 
-  /* [修正] 強化差分ブロックに散在していた --retro-* 変数をメインに統合 */
+  /* ロール別アクセントカラー */
   --retro-gold: rgba(255, 209, 117, 0.78);
   --retro-gold-soft: rgba(255, 209, 117, 0.26);
   --retro-bronze: rgba(201, 140, 88, 0.72);
@@ -63,9 +66,9 @@ body[data-theme="retro"] {
 }
 
 /* =========================
-   1) 全体のレトロ背景
+   2) 全体背景
+   - 暖色グラデ放射 + ごく薄い木目/紙感テクスチャ
    ========================= */
-/* 暖色の奥行きは残しつつ、主張は控えめに */
 body[data-theme="retro"] {
   background-color: #1b120f;
   background-image:
@@ -76,7 +79,7 @@ body[data-theme="retro"] {
   background-attachment: fixed;
 }
 
-/* 木目/紙感はかなり薄く */
+/* 薄い横縞 + 縦縞で紙・木目感を表現（opacity: 0.08 で控えめに） */
 body[data-theme="retro"]::before {
   content: "";
   position: fixed;
@@ -98,9 +101,11 @@ body[data-theme="retro"]::before {
 }
 
 /* =========================
-   2) パネル
+   3) パネル
+   - 木箱っぽい多重シャドウ
+   - 内側に暖色放射グロー
+   - hover で浮き上がり
    ========================= */
-/* 木箱っぽさを残しつつ、上質な箱物UI寄りに */
 body[data-theme="retro"] .panel {
   box-shadow:
     0 10px 22px rgba(0, 0, 0, 0.28),
@@ -108,6 +113,7 @@ body[data-theme="retro"] .panel {
     inset 0 0 0 1px rgba(255, 240, 220, 0.03);
 }
 
+/* パネル内側の暖色放射グロー */
 body[data-theme="retro"] .panel::before {
   background:
     radial-gradient(circle at 18% 22%, rgba(255, 220, 140, 0.10), transparent 35%),
@@ -123,9 +129,12 @@ body[data-theme="retro"] .panel:hover {
 }
 
 /* =========================
-   3) 見出し
+   4) 見出し
+   - 上品な細いゴールド下線
+   - ロールごとに左端ラインと右端の短い飾り線の色を変える
    ========================= */
-/* 記号装飾ではなく、細い飾り線で上品に */
+
+/* タイトル下のゴールドグラデ線（共通） */
 body[data-theme="retro"] .panel-title {
   letter-spacing: 0.16em;
   text-shadow:
@@ -149,10 +158,154 @@ body[data-theme="retro"] .panel-title::after {
   content: none;
 }
 
+/* ---- ロール別の左ライン + 右端飾り線 ---- */
+
+body[data-theme="retro"] .panel-title-menu,
+body[data-theme="retro"] .panel-title-info,
+body[data-theme="retro"] .panel-title-news {
+  position: relative;
+  padding-left: 2px;
+}
+
+/* 左の細いカラーライン */
+body[data-theme="retro"] .panel-title-menu {
+  border-left: 2px solid rgba(201, 140, 88, 0.68);
+}
+
+body[data-theme="retro"] .panel-title-info {
+  border-left: 2px solid rgba(168, 182, 120, 0.66);
+}
+
+body[data-theme="retro"] .panel-title-news {
+  border-left: 2px solid rgba(190, 116, 106, 0.66);
+}
+
+/* 右端の短い飾り線（::before の下線とは別に ::after で表現） */
+body[data-theme="retro"] .panel-title-menu::after,
+body[data-theme="retro"] .panel-title-info::after,
+body[data-theme="retro"] .panel-title-news::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 42px;
+  height: 1px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+body[data-theme="retro"] .panel-title-menu::after {
+  background: linear-gradient(90deg, rgba(201, 140, 88, 0), rgba(201, 140, 88, 0.60));
+}
+
+body[data-theme="retro"] .panel-title-info::after {
+  background: linear-gradient(90deg, rgba(168, 182, 120, 0), rgba(168, 182, 120, 0.56));
+}
+
+body[data-theme="retro"] .panel-title-news::after {
+  background: linear-gradient(90deg, rgba(190, 116, 106, 0), rgba(190, 116, 106, 0.58));
+}
+
 /* =========================
-   4) メニューカード
+   5) ヘッダー / ヒーロー
+   - 額縁感は控えめ・内側の二重枠でほんのり立体感
+   - 画像に微sepia
    ========================= */
-/* 手作り感より"丁寧なカード"感を優先 */
+body[data-theme="retro"] .hero-card {
+  background:
+    linear-gradient(180deg,
+      rgba(255, 230, 180, 0.025),
+      rgba(0, 0, 0, 0.08)),
+    var(--hero-bg);
+  box-shadow:
+    inset 0 0 0 1px var(--hero-inner),
+    0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+/* 内側の二重枠（額縁の内側ラインと奥の暗い影） */
+body[data-theme="retro"] .hero-card::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 10px;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 235, 190, 0.035),
+    inset 0 0 14px rgba(80, 40, 20, 0.08);
+}
+
+body[data-theme="retro"] .hero-card:hover {
+  box-shadow:
+    0 0 10px rgba(255, 209, 117, 0.08),
+    0 10px 20px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 1px rgba(255, 240, 220, 0.03);
+}
+
+/* 微sepia で古写真感 */
+body[data-theme="retro"] .hero-card img {
+  filter: contrast(1.02) saturate(1.02) sepia(0.02);
+}
+
+/* =========================
+   6) ヒーローナビゲーション
+   - 上品レトロな木枠ボタン風
+   - hover で淡いゴールドグロー
+   ========================= */
+body[data-theme="retro"] .hero-nav {
+  background:
+    linear-gradient(180deg,
+      rgba(255, 230, 180, 0.04),
+      rgba(0, 0, 0, 0.16));
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 220, 0.06),
+    0 2px 6px rgba(0, 0, 0, 0.14);
+}
+
+body[data-theme="retro"] .hero-nav:hover {
+  border-color: rgba(255, 209, 117, 0.38);
+  background:
+    linear-gradient(180deg,
+      rgba(255, 235, 190, 0.07),
+      rgba(0, 0, 0, 0.20));
+  box-shadow:
+    0 0 8px rgba(255, 209, 117, 0.08),
+    0 4px 8px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 240, 220, 0.08);
+}
+
+/* =========================
+   7) テーマ切り替えボタン
+   - ナビゲーションボタンと同系統のレトロ木枠風
+   ========================= */
+body[data-theme="retro"] .theme-btn {
+  background:
+    linear-gradient(180deg,
+      rgba(255, 235, 200, 0.03),
+      rgba(0, 0, 0, 0.12));
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 220, 0.05),
+    0 2px 6px rgba(0, 0, 0, 0.14);
+}
+
+body[data-theme="retro"] .theme-btn:hover {
+  box-shadow:
+    0 0 8px rgba(255, 209, 117, 0.08),
+    0 4px 8px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 240, 220, 0.06);
+}
+
+/* =========================
+   8) メニューカード
+   - 丁寧なカード感。hover で浮き上がり + 淡いゴールドグロー
+   - MAIN項目だけわずかに格上げ
+   - カテゴリ・Discord 2種ごとに色差
+   ========================= */
+body[data-theme="retro"] .menu-primary {
+  gap: 4px;
+}
+
 body[data-theme="retro"] .menu-item {
   background:
     linear-gradient(180deg,
@@ -178,7 +331,7 @@ body[data-theme="retro"] .menu-item:hover {
     inset 0 1px 0 rgba(255, 240, 220, 0.05);
 }
 
-/* メイン導線だけ少しだけ特別扱い */
+/* MAIN 項目：ほんのり暖色を強めて格上げ */
 body[data-theme="retro"] .menu-item.is-main {
   background:
     linear-gradient(180deg,
@@ -190,239 +343,7 @@ body[data-theme="retro"] .menu-item.is-main {
     0 0 10px rgba(255, 209, 117, 0.05);
 }
 
-/* =========================
-   5) メニュー文字・pill
-   ========================= */
-/* 文字の圧は少し弱めて読みやすく */
-body[data-theme="retro"] .menu-label {
-  text-shadow:
-    0 1px 0 rgba(0, 0, 0, 0.42),
-    0 0 6px rgba(255, 209, 117, 0.06);
-}
-
-body[data-theme="retro"] .menu-desc {
-  text-shadow: none;
-}
-
-/* 真鍮感は薄めに */
-body[data-theme="retro"] .pill {
-  background:
-    linear-gradient(180deg,
-      rgba(255, 235, 190, 0.05),
-      rgba(60, 35, 18, 0.16));
-  border-color: rgba(255, 209, 117, 0.26);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 235, 200, 0.06),
-    0 1px 2px rgba(0, 0, 0, 0.12);
-}
-
-/* =========================
-   6) ヒーロー部分
-   ========================= */
-/* 額縁感はかなり控えめに */
-body[data-theme="retro"] .hero-card {
-  background:
-    linear-gradient(180deg,
-      rgba(255, 230, 180, 0.025),
-      rgba(0, 0, 0, 0.08)),
-    var(--hero-bg);
-  box-shadow:
-    inset 0 0 0 1px var(--hero-inner),
-    0 8px 18px rgba(0, 0, 0, 0.18);
-}
-
-body[data-theme="retro"] .hero-card::before {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  border-radius: 10px;
-  pointer-events: none;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 235, 190, 0.035),
-    inset 0 0 14px rgba(80, 40, 20, 0.08);
-}
-
-body[data-theme="retro"] .hero-card:hover {
-  box-shadow:
-    0 0 10px rgba(255, 209, 117, 0.08),
-    0 10px 20px rgba(0, 0, 0, 0.18),
-    inset 0 0 0 1px rgba(255, 240, 220, 0.03);
-}
-
-body[data-theme="retro"] .hero-card img {
-  filter: contrast(1.02) saturate(1.02) sepia(0.02);
-}
-
-/* =========================
-   7) 矢印ボタン
-   ========================= */
-/* "昔のサイトのボタン"っぽさは残しつつ落ち着かせる */
-body[data-theme="retro"] .hero-nav {
-  background:
-    linear-gradient(180deg,
-      rgba(255, 230, 180, 0.04),
-      rgba(0, 0, 0, 0.16));
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 240, 220, 0.06),
-    0 2px 6px rgba(0, 0, 0, 0.14);
-}
-
-body[data-theme="retro"] .hero-nav:hover {
-  border-color: rgba(255, 209, 117, 0.38);
-  background:
-    linear-gradient(180deg,
-      rgba(255, 235, 190, 0.07),
-      rgba(0, 0, 0, 0.20));
-  box-shadow:
-    0 0 8px rgba(255, 209, 117, 0.08),
-    0 4px 8px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 240, 220, 0.08);
-}
-
-/* =========================
-   8) テーマボタン
-   ========================= */
-body[data-theme="retro"] .theme-btn {
-  background:
-    linear-gradient(180deg,
-      rgba(255, 235, 200, 0.03),
-      rgba(0, 0, 0, 0.12));
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 240, 220, 0.05),
-    0 2px 6px rgba(0, 0, 0, 0.14);
-}
-
-body[data-theme="retro"] .theme-btn:hover {
-  box-shadow:
-    0 0 8px rgba(255, 209, 117, 0.08),
-    0 4px 8px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 240, 220, 0.06);
-}
-
-/* =========================
-   9) お知らせ枠
-   ========================= */
-/* 貼り紙感ではなく、静かな情報枠 */
-body[data-theme="retro"] .notice {
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.025),
-    0 2px 6px rgba(0, 0, 0, 0.10);
-}
-
-body[data-theme="retro"] .notice::after {
-  content: none;
-}
-
-/* =========================
-   10) フッター
-   ========================= */
-body[data-theme="retro"] .footer .panel {
-  background:
-    linear-gradient(180deg,
-      rgba(70, 46, 34, 0.90),
-      rgba(38, 26, 20, 0.94));
-}
-
-body[data-theme="retro"] .footer-small {
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.42);
-}
-
-/* =========================
-   11) reduced motion
-   ========================= */
-@media (prefers-reduced-motion: reduce) {
-
-  body[data-theme="retro"] .panel,
-  body[data-theme="retro"] .menu-item,
-  body[data-theme="retro"] .hero-card,
-  body[data-theme="retro"] .theme-btn,
-  body[data-theme="retro"] .hero-nav {
-    transition: none;
-  }
-}
-
-/* =========================================================
-   強化差分
-   ---------------------------------------------------------
-   [修正] 元ファイルには「軽量強化差分」と末尾の「Discord 2種の区別を強化」の
-   2ブロックに community 関連の4ルールが分散していた。
-   ・.menu-item-community-token  border-left（軽量強化差分）
-   ・.menu-item-community-coin   border-left（軽量強化差分）
-   ・.menu-item-community-token .menu-label（軽量強化差分）
-   ・.menu-item-community-coin  .menu-label（軽量強化差分）
-   いずれも末尾ブロックの同セレクターに上書きされる死んだコードのため削除。
-   末尾ブロックの値で一本化。
-   また --retro-* 変数はメインブロックへ移動済み。
-   ========================================================= */
-
-/* =========================
-   パネル見出しの役割差
-   文字は増やさず、細い線と色だけ変える
-   ========================= */
-
-body[data-theme="retro"] .panel-title-menu,
-body[data-theme="retro"] .panel-title-info,
-body[data-theme="retro"] .panel-title-news {
-  position: relative;
-  padding-left: 2px;
-}
-
-/* 既存の下線とは別に、ごく細い左アクセントを足す */
-body[data-theme="retro"] .panel-title-menu {
-  border-left: 2px solid rgba(201, 140, 88, 0.68);
-}
-
-body[data-theme="retro"] .panel-title-info {
-  border-left: 2px solid rgba(168, 182, 120, 0.66);
-}
-
-body[data-theme="retro"] .panel-title-news {
-  border-left: 2px solid rgba(190, 116, 106, 0.66);
-}
-
-/* 右に短い飾り線をうっすら追加 */
-body[data-theme="retro"] .panel-title-menu::after,
-body[data-theme="retro"] .panel-title-info::after,
-body[data-theme="retro"] .panel-title-news::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 50%;
-  width: 42px;
-  height: 1px;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-body[data-theme="retro"] .panel-title-menu::after {
-  background: linear-gradient(90deg,
-      rgba(201, 140, 88, 0),
-      rgba(201, 140, 88, 0.60));
-}
-
-body[data-theme="retro"] .panel-title-info::after {
-  background: linear-gradient(90deg,
-      rgba(168, 182, 120, 0),
-      rgba(168, 182, 120, 0.56));
-}
-
-body[data-theme="retro"] .panel-title-news::after {
-  background: linear-gradient(90deg,
-      rgba(190, 116, 106, 0),
-      rgba(190, 116, 106, 0.58));
-}
-
-/* =========================
-   メニュー文字のカテゴリ差
-   派手すぎない範囲で温度差を出す
-   ========================= */
-
-body[data-theme="retro"] .menu-primary {
-  gap: 4px;
-}
-
+/* ---- カテゴリ別ラベル色 ---- */
 body[data-theme="retro"] .menu-item-main .menu-label {
   color: rgba(255, 232, 190, 0.98);
   text-shadow:
@@ -454,149 +375,18 @@ body[data-theme="retro"] .menu-item-home .menu-label {
   color: rgba(220, 212, 198, 0.92);
 }
 
-/* MAIN ラベルだけ少しだけ格上げ */
-body[data-theme="retro"] .pill-main {
-  border-color: rgba(255, 220, 160, 0.34);
-  background:
-    linear-gradient(180deg,
-      rgba(255, 225, 170, 0.10),
-      rgba(0, 0, 0, 0.12));
-  color: rgba(255, 238, 210, 0.96);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 240, 220, 0.08),
-    0 0 8px rgba(255, 209, 117, 0.04);
-}
+/* ---- Discord 2種：左ライン + ラベル色 + desc prefix ---- */
 
-/* =========================
-   INFO
-   ========================= */
-
-body[data-theme="retro"] .panel-info .site-title {
-  position: relative;
-  padding-bottom: 8px;
-}
-
-body[data-theme="retro"] .panel-info .site-title::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: min(240px, 68%);
-  height: 1px;
-  background:
-    linear-gradient(90deg,
-      rgba(255, 209, 117, 0.45),
-      rgba(255, 209, 117, 0.08),
-      transparent);
-}
-
-/* 初心者向け notice を少しだけ特別扱い */
-body[data-theme="retro"] .notice-info {
-  border-color: rgba(255, 209, 117, 0.18);
-  background:
-    linear-gradient(180deg,
-      rgba(255, 245, 225, 0.028),
-      rgba(0, 0, 0, 0.06));
-}
-
-body[data-theme="retro"] .notice-info .notice-title {
-  color: rgba(244, 223, 186, 0.96);
-}
-
-/* =========================
-   NEWS
-   ========================= */
-
-body[data-theme="retro"] .news-block-notice+.news-block-update {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 209, 117, 0.10);
-}
-
-/* 小見出しの役割差は控えめに */
-body[data-theme="retro"] .news-subtitle-notice,
-body[data-theme="retro"] .news-subtitle-update {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  letter-spacing: 0.10em;
-}
-
-body[data-theme="retro"] .news-subtitle-notice {
-  color: rgba(236, 220, 190, 0.90);
-}
-
-body[data-theme="retro"] .news-subtitle-update {
-  color: rgba(229, 200, 188, 0.88);
-}
-
-body[data-theme="retro"] .news-subtitle-notice::before,
-body[data-theme="retro"] .news-subtitle-update::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.75;
-}
-
-/* お知らせは柔らかく */
-body[data-theme="retro"] #notice_content .notice {
-  border-color: rgba(255, 209, 117, 0.14);
-}
-
-/* 更新情報は少しだけ整理された一覧感 */
-body[data-theme="retro"] #update_content {
-  margin-top: 8px;
-}
-
-body[data-theme="retro"] .update-row {
-  margin-top: 8px;
-  padding: 6px 8px;
-  border-bottom: 1px solid rgba(255, 209, 117, 0.10);
-}
-
-body[data-theme="retro"] .update-label {
-  color: rgba(245, 228, 198, 0.94);
-}
-
-/* =========================
-   フッター
-   ========================= */
-
-body[data-theme="retro"] .panel-footer {
-  position: relative;
-}
-
-body[data-theme="retro"] .panel-footer::after {
-  content: "";
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  width: 56px;
-  height: 1px;
-  transform: translateY(-50%);
-  background:
-    linear-gradient(90deg,
-      rgba(255, 209, 117, 0.45),
-      rgba(255, 209, 117, 0));
-  opacity: 0.55;
-}
-
-/* =========================
-   Discord 2種の区別
-   ========================= */
-
+/* TOKEN：ゴールド系ライン */
 body[data-theme="retro"] .menu-item-community-token {
   border-left: 3px solid rgba(210, 176, 108, 0.52);
-  box-shadow:
-    inset 3px 0 0 rgba(255, 220, 150, 0.08);
+  box-shadow: inset 3px 0 0 rgba(255, 220, 150, 0.08);
 }
 
+/* COIN：ブロンズ系ライン */
 body[data-theme="retro"] .menu-item-community-coin {
   border-left: 3px solid rgba(156, 126, 92, 0.50);
-  box-shadow:
-    inset 3px 0 0 rgba(210, 176, 130, 0.07);
+  box-shadow: inset 3px 0 0 rgba(210, 176, 130, 0.07);
 }
 
 body[data-theme="retro"] .menu-item-community-token .menu-label {
@@ -625,4 +415,206 @@ body[data-theme="retro"] .menu-item-community-coin .menu-desc::before {
   color: rgba(212, 178, 146, 0.84);
   font-weight: 700;
   letter-spacing: 0.04em;
+}
+
+/* =========================
+   9) メニュー文字・pill
+   ========================= */
+
+/* ラベル：圧を弱めて読みやすく */
+body[data-theme="retro"] .menu-label {
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.42),
+    0 0 6px rgba(255, 209, 117, 0.06);
+}
+
+body[data-theme="retro"] .menu-desc {
+  text-shadow: none;
+}
+
+/* pill：真鍮感は薄めに */
+body[data-theme="retro"] .pill {
+  background:
+    linear-gradient(180deg,
+      rgba(255, 235, 190, 0.05),
+      rgba(60, 35, 18, 0.16));
+  border-color: rgba(255, 209, 117, 0.26);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 235, 200, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+/* MAIN pill：ゴールド枠 + 微グロー */
+body[data-theme="retro"] .pill-main {
+  border-color: rgba(255, 220, 160, 0.34);
+  background:
+    linear-gradient(180deg,
+      rgba(255, 225, 170, 0.10),
+      rgba(0, 0, 0, 0.12));
+  color: rgba(255, 238, 210, 0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 220, 0.08),
+    0 0 8px rgba(255, 209, 117, 0.04);
+}
+
+/* =========================
+   10) お知らせ枠
+   - 貼り紙感ではなく静かな情報枠
+   ========================= */
+body[data-theme="retro"] .notice {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.025),
+    0 2px 6px rgba(0, 0, 0, 0.10);
+}
+
+body[data-theme="retro"] .notice::after {
+  content: none;
+}
+
+/* =========================
+   11) INFO
+   - サイトタイトル下のゴールドグラデ線
+   - notice-info は暖色の情報枠
+   ========================= */
+
+/* タイトル下の細いゴールドグラデ線 */
+body[data-theme="retro"] .panel-info .site-title {
+  position: relative;
+  padding-bottom: 8px;
+}
+
+body[data-theme="retro"] .panel-info .site-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: min(240px, 68%);
+  height: 1px;
+  background:
+    linear-gradient(90deg,
+      rgba(255, 209, 117, 0.45),
+      rgba(255, 209, 117, 0.08),
+      transparent);
+}
+
+/* 初心者向け notice：暖色の静かな枠 */
+body[data-theme="retro"] .notice-info {
+  border-color: rgba(255, 209, 117, 0.18);
+  background:
+    linear-gradient(180deg,
+      rgba(255, 245, 225, 0.028),
+      rgba(0, 0, 0, 0.06));
+}
+
+body[data-theme="retro"] .notice-info .notice-title {
+  color: rgba(244, 223, 186, 0.96);
+}
+
+/* =========================
+   12) NEWS / お知らせ / 更新情報
+   ========================= */
+
+/* 区切り線：ゴールド細線 */
+body[data-theme="retro"] .news-block-notice+.news-block-update {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 209, 117, 0.10);
+}
+
+/* NEWS 小見出し：左端に細い横線のアイコン */
+body[data-theme="retro"] .news-subtitle-notice,
+body[data-theme="retro"] .news-subtitle-update {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.10em;
+}
+
+body[data-theme="retro"] .news-subtitle-notice {
+  color: rgba(236, 220, 190, 0.90);
+}
+
+body[data-theme="retro"] .news-subtitle-update {
+  color: rgba(229, 200, 188, 0.88);
+}
+
+/* 短い横線アイコン（currentColor で連動） */
+body[data-theme="retro"] .news-subtitle-notice::before,
+body[data-theme="retro"] .news-subtitle-update::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.75;
+}
+
+/* お知らせ枠：ゴールドの細い枠 */
+body[data-theme="retro"] #notice_content .notice {
+  border-color: rgba(255, 209, 117, 0.14);
+}
+
+/* 更新情報：ゴールド細線で区切る一覧感 */
+body[data-theme="retro"] #update_content {
+  margin-top: 8px;
+}
+
+body[data-theme="retro"] .update-row {
+  margin-top: 8px;
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(255, 209, 117, 0.10);
+}
+
+body[data-theme="retro"] .update-label {
+  color: rgba(245, 228, 198, 0.94);
+}
+
+/* =========================
+   13) フッター
+   ========================= */
+
+/* フッターパネル：深い暖色グラデ */
+body[data-theme="retro"] .footer .panel {
+  background:
+    linear-gradient(180deg,
+      rgba(70, 46, 34, 0.90),
+      rgba(38, 26, 20, 0.94));
+}
+
+body[data-theme="retro"] .footer-small {
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.42);
+}
+
+/* 左端にゴールドグラデ線のさりげない装飾 */
+body[data-theme="retro"] .panel-footer {
+  position: relative;
+}
+
+body[data-theme="retro"] .panel-footer::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  width: 56px;
+  height: 1px;
+  transform: translateY(-50%);
+  background:
+    linear-gradient(90deg,
+      rgba(255, 209, 117, 0.45),
+      rgba(255, 209, 117, 0));
+  opacity: 0.55;
+}
+
+/* =========================
+   14) モーション軽減
+   ========================= */
+@media (prefers-reduced-motion: reduce) {
+
+  body[data-theme="retro"] .panel,
+  body[data-theme="retro"] .menu-item,
+  body[data-theme="retro"] .hero-card,
+  body[data-theme="retro"] .theme-btn,
+  body[data-theme="retro"] .hero-nav {
+    transition: none;
+  }
 }
