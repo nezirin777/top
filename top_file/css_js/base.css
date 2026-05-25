@@ -94,6 +94,7 @@ body {
 body.late-night {
   filter: brightness(0.96);
 }
+
 /* ここまで*/
 
 #page {
@@ -145,7 +146,7 @@ body.late-night {
 }
 
 /* パネル内容を glow より前に出す */
-.panel > * {
+.panel>* {
   position: relative;
   z-index: 2;
 }
@@ -175,15 +176,19 @@ body.late-night {
 /* =========================
    5) Header / hero
    ========================= */
+
+/* [修正] #header.panel と #header の競合を解消。
+   HTMLでは常に class="panel" が付くため #header 単独ルールは
+   #header.panel より詳細度が低く、padding / margin-bottom が無効だった。
+   一本化して意図通りの値（padding: 12px, margin-bottom: 18px）に統一。 */
 #header.panel {
   max-width: 1050px;
-  margin: 0 auto 10px;
+  margin: 0 auto 18px;
   padding: 12px;
 }
 
 #header {
   padding: 0;
-  margin-bottom: 18px;
 }
 
 .header-inner {
@@ -233,14 +238,17 @@ body.late-night {
   border-radius: 10px;
   filter: contrast(1.03) saturate(1.06);
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
-  animation: heroBreath 8s ease-in-out infinite; /* 画像に微かな呼吸アニメーション */
+  animation: heroBreath 8s ease-in-out infinite;
+  /* 画像に微かな呼吸アニメーション */
 }
 
 @keyframes heroBreath {
+
   0%,
   100% {
     filter: contrast(1.03) saturate(1.06) brightness(1);
   }
+
   50% {
     filter: contrast(1.04) saturate(1.07) brightness(1.03);
   }
@@ -321,10 +329,10 @@ body.late-night {
   cursor: pointer;
 
   transition:
-      transform 120ms ease,
-      box-shadow 120ms ease,
-      border-color 120ms ease,
-      background 120ms ease;
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease;
 }
 
 .theme-btn:hover {
@@ -391,12 +399,6 @@ body.late-night {
 
 .notice:first-child {
   margin-top: 0;
-}
-
-.notice-body {
-  white-space: normal;
-  word-break: break-word;
-  overflow-wrap: anywhere;
 }
 
 /* =========================
@@ -482,7 +484,6 @@ body.late-night {
   color: var(--title-color);
 }
 
-
 .notice {
   margin-top: 14px;
   padding: 12px;
@@ -499,9 +500,13 @@ body.late-night {
   letter-spacing: 0.12em;
 }
 
+/* [修正] .notice-body が2箇所に分散していたのを1箇所に統合 */
 .notice-body {
   font-size: 13px;
   color: var(--notice-body);
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 /* =========================
@@ -621,28 +626,40 @@ body.late-night {
 }
 
 /* =========================
-   14) Motion safety
+   14) テーマ切り替えトランジション
    ========================= */
-@media (prefers-reduced-motion: reduce) {
-  .menu-item,
-  .hero-card,
-  .theme-btn,
-  .hero-nav {
-    transition: none;
-  }
+
+/* [修正] 元のコードは一括ブロックで全要素に同じ値を設定した後、
+   個別ブロックで上書きしており、一括ブロックがほぼ無意味だった。
+   また .notice-box という存在しないクラスを参照していた（正: .notice）。
+   要素ごとに1箇所にまとめて整理。 */
+
+html,
+body {
+  transition:
+    background-color 0.8s ease,
+    color 0.6s ease;
 }
 
-/* テーマ切り替えトランジション */
-html,
-body,
-.panel,
-.panel-title,
+.panel {
+  transition:
+    background-color 0.7s ease,
+    border-color 0.7s ease,
+    box-shadow 0.9s ease;
+}
+
+.panel-title {
+  transition:
+    color 0.6s ease,
+    border-color 0.6s ease,
+    box-shadow 0.9s ease;
+}
+
 .menu-item,
 .price-line,
 .result-box,
 .converter-row input,
-.price-btn,
-.notice-box {
+.notice {
   transition:
     background-color 0.6s ease,
     color 0.6s ease,
@@ -651,31 +668,6 @@ body,
     text-shadow 0.8s ease;
 }
 
-/* 全体を少しゆっくり */
-html,
-body {
-  transition:
-    background-color 0.8s ease,
-    color 0.6s ease;
-}
-
-/* パネル系は少し遅れて変わる */
-.panel {
-  transition:
-    background-color 0.7s ease,
-    border-color 0.7s ease,
-    box-shadow 0.9s ease;
-}
-
-/* タイトルは少し演出強め */
-.panel-title {
-  transition:
-    color 0.6s ease,
-    border-color 0.6s ease,
-    box-shadow 0.9s ease;
-}
-
-/* 入力・ボタンはキビキビ */
 input,
 .price-btn {
   transition:
@@ -683,4 +675,21 @@ input,
     border-color 0.4s ease,
     color 0.4s ease,
     box-shadow 0.6s ease;
+}
+
+/* =========================
+   15) Motion safety
+   ========================= */
+
+/* [修正] 元は section 14 にあったが、直後のトランジション宣言群に
+   上書きされて transition: none が無効になっていた。
+   トランジション宣言より後ろに移動し、対象セレクターも拡充。 */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }

@@ -53,6 +53,16 @@ body[data-theme="oldweb"] {
 
   --footer-small: #555555;
 
+  /* [修正] 強化差分ブロックに散在していた --oldweb-* 変数をメインに統合 */
+  --oldweb-blue: #0033cc;
+  --oldweb-blue-dark: #003399;
+  --oldweb-red: #990000;
+  --oldweb-green: #006600;
+  --oldweb-gray-1: #f7f7f7;
+  --oldweb-gray-2: #e4e4e4;
+  --oldweb-gray-3: #c8c8c8;
+  --oldweb-gray-4: #8f8f8f;
+
   background-color: var(--bg);
   color: var(--text);
   text-shadow: none;
@@ -142,6 +152,7 @@ body[data-theme="oldweb"] .panel-title {
   text-shadow: none;
 }
 
+/* base.css の ::before / ::after を無効化 */
 body[data-theme="oldweb"] .panel-title::before,
 body[data-theme="oldweb"] .panel-title::after {
   content: none;
@@ -230,60 +241,159 @@ body[data-theme="oldweb"] .theme-btn:active {
 /* =========================
    6) メニュー
    ========================= */
+
+/* [修正] section 6 と強化差分「メニュー全体」を統合。
+   ・.menu-item: 強化差分の値を採用 + section 6 固有の color: #111111 を追加
+   ・.menu-item:hover: section 6 は完全に上書きされていたため強化差分の値のみ残す
+   ・.menu-item.is-main: 詳細度バグを修正。section 6 の (0,3,0) が強化差分の
+     .menu-item-main (0,2,0) に勝つため、ここで強化差分が意図した値を設定する
+   ・.menu-label: section 6 固有の font-family/font-weight/text-shadow と
+     強化差分の color をまとめる
+   ・.menu-desc / .pill: 強化差分の値で統合、section 6 固有プロパティを保持 */
+
 body[data-theme="oldweb"] .menu {
   gap: 8px;
 }
 
+body[data-theme="oldweb"] .menu-primary {
+  gap: 4px;
+}
+
 body[data-theme="oldweb"] .menu-item {
+  position: relative;
+  padding: 8px 10px 7px 22px;
   border-radius: 0;
-  padding: 10px 10px 9px;
-  border: 1px solid var(--card-border);
-  background: linear-gradient(180deg, #fafafa, #e9e9e9);
+  border: 1px solid #b7b7b7;
+  background:
+    linear-gradient(180deg, #fafafa, #ececec);
   color: #111111;
   box-shadow:
     1px 1px 0 rgba(255, 255, 255, 0.85) inset,
     -1px -1px 0 rgba(0, 0, 0, 0.05) inset;
 }
 
-body[data-theme="oldweb"] .menu-item:hover {
-  transform: none;
-  border-color: #7f7f7f;
-  background: linear-gradient(180deg, #ffffff, #f0f0f0);
-  box-shadow:
-    0 0 0 1px rgba(0, 68, 204, 0.12),
-    1px 1px 0 rgba(255, 255, 255, 0.88) inset,
-    -1px -1px 0 rgba(0, 0, 0, 0.06) inset;
+body[data-theme="oldweb"] .menu-item::before {
+  content: "▶";
+  position: absolute;
+  left: 8px;
+  top: 10px;
+  color: var(--oldweb-red);
+  font-size: 11px;
+  line-height: 1;
 }
 
-body[data-theme="oldweb"] .menu-item.is-main {
-  border-color: #7e9cd8;
+body[data-theme="oldweb"] .menu-item:hover {
+  transform: none;
   background:
-    linear-gradient(180deg, #fdfefe, #e8f0ff);
+    linear-gradient(180deg, #ffffff, #f3f3f3);
+  border-color: #8f8f8f;
+}
+
+body[data-theme="oldweb"] .menu-item:active {
+  box-shadow:
+    -1px -1px 0 rgba(255, 255, 255, 0.65) inset,
+    1px 1px 0 rgba(0, 0, 0, 0.10) inset;
+}
+
+body[data-theme="oldweb"] .menu-item-top {
+  align-items: baseline;
+}
+
+/* [修正] .menu-item.is-main は詳細度 (0,3,0) で強化差分の .menu-item-main (0,2,0) に
+   常に勝つため、強化差分が意図した値をここで設定する */
+body[data-theme="oldweb"] .menu-item.is-main {
+  border-color: #9fb3df;
+  background:
+    linear-gradient(180deg, #fdfefe, #e9f1ff);
+}
+
+/* メイン項目は ★ に変更 */
+body[data-theme="oldweb"] .menu-item-main::before {
+  content: "★";
+  color: #cc0000;
 }
 
 body[data-theme="oldweb"] .menu-label {
-  color: #0033aa;
+  color: var(--oldweb-blue);
   font-family: var(--font-body);
   font-weight: 700;
   text-decoration: underline;
   text-shadow: none;
 }
 
+body[data-theme="oldweb"] .menu-label-main {
+  color: #990000;
+}
+
 body[data-theme="oldweb"] .menu-desc {
-  margin-top: 5px;
+  margin-top: 4px;
   color: #333333;
   font-size: 12px;
+  line-height: 1.45;
+}
+
+/* 項目ごとの色分け */
+body[data-theme="oldweb"] .menu-item-classic .menu-label {
+  color: #003399;
+}
+
+body[data-theme="oldweb"] .menu-item-coop .menu-label {
+  color: #006600;
+}
+
+body[data-theme="oldweb"] .menu-item-chaos .menu-label {
+  color: #990000;
+}
+
+body[data-theme="oldweb"] .menu-item-br .menu-label {
+  color: #663399;
+}
+
+body[data-theme="oldweb"] .menu-item-tool .menu-label {
+  color: #003366;
+}
+
+body[data-theme="oldweb"] .menu-item-home .menu-label {
+  color: #444444;
+}
+
+/* community の見分け強化 */
+body[data-theme="oldweb"] .menu-item-community-token {
+  border-left: 5px solid #4a76d1;
+}
+
+body[data-theme="oldweb"] .menu-item-community-coin {
+  border-left: 5px solid #b07a24;
+}
+
+body[data-theme="oldweb"] .menu-item-community-token .menu-desc::before {
+  content: "[TOKEN] ";
+  color: #2d58b5;
+  font-weight: 700;
+}
+
+body[data-theme="oldweb"] .menu-item-community-coin .menu-desc::before {
+  content: "[COIN] ";
+  color: #8a5c12;
+  font-weight: 700;
 }
 
 body[data-theme="oldweb"] .pill {
+  min-width: 0;
+  padding: 1px 6px 2px;
   border-radius: 0;
-  padding: 2px 6px;
-  background: #dddddd;
   border: 1px solid #aaaaaa;
+  background: #dddddd;
   color: #444444;
   font-size: 10px;
   letter-spacing: 0.04em;
   box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.7) inset;
+}
+
+body[data-theme="oldweb"] .pill-main {
+  color: #7a0000;
+  border-color: #c29c9c;
+  background: #f0dede;
 }
 
 /* =========================
@@ -324,23 +434,19 @@ body[data-theme="oldweb"] .notice-body {
   line-height: 1.55;
 }
 
-/* 更新情報を一覧っぽく */
-body[data-theme="oldweb"] .update-row {
-  margin-top: 6px;
-  padding: 5px 6px;
-  border: 1px solid #c8c8c8;
-  background: #f7f7f7;
-}
-
-body[data-theme="oldweb"] .update-label {
-  color: #222222;
-}
-
 /* =========================
    8) 本文・リンク感
    ========================= */
+
+/* [修正] section 8 と強化差分「リンク感」を統合。
+   a / a:visited は両方に全く同一のルールがあったため1箇所にまとめ、
+   強化差分にのみあった a:hover をここで追加。 */
 body[data-theme="oldweb"] a {
   color: #0033cc;
+}
+
+body[data-theme="oldweb"] a:hover {
+  color: #cc0000;
 }
 
 body[data-theme="oldweb"] a:visited {
@@ -379,24 +485,19 @@ body[data-theme="oldweb"] .footer-small {
 }
 
 /* =========================================================
-   oldweb 強化差分
-   - 追加した意味クラスを利用
-   - 「古い個人サイト」「2000年代初頭」感を強める
+   強化差分
+   ---------------------------------------------------------
+   [修正] 元ファイルでは以下の問題があったため整理済み:
+   ・--oldweb-* 変数 → メインブロックへ移動
+   ・「メニュー全体」セクション → section 6 に統合、ここから削除
+   ・「リンク感」セクション → section 8 に統合、ここから削除
+   ・.panel-footer: 2箇所に分散していた background / position を統合。
+     さらに background は .footer .panel（詳細度 0,3,0）に
+     常に負けて適用されないため削除
    ========================================================= */
 
-body[data-theme="oldweb"] {
-  --oldweb-blue: #0033cc;
-  --oldweb-blue-dark: #003399;
-  --oldweb-red: #990000;
-  --oldweb-green: #006600;
-  --oldweb-gray-1: #f7f7f7;
-  --oldweb-gray-2: #e4e4e4;
-  --oldweb-gray-3: #c8c8c8;
-  --oldweb-gray-4: #8f8f8f;
-}
-
 /* =========================
-   パネルごとの差を少し強める
+   パネルごとの背景差
    ========================= */
 
 body[data-theme="oldweb"] .panel-header {
@@ -417,11 +518,6 @@ body[data-theme="oldweb"] .panel-info {
 body[data-theme="oldweb"] .panel-news {
   background:
     linear-gradient(180deg, #f8f8f8, #e8e8e8);
-}
-
-body[data-theme="oldweb"] .panel-footer {
-  background:
-    linear-gradient(180deg, #ececec, #dadada);
 }
 
 /* =========================
@@ -469,150 +565,6 @@ body[data-theme="oldweb"] .panel-title-news::after {
    ========================= */
 
 /* hero-card::after は .panel::after と競合するため使用しない */
-
-/* =========================
-   メニュー全体
-   「カード」から「古いリンク集」寄りへ
-   ========================= */
-
-body[data-theme="oldweb"] .menu-primary {
-  gap: 4px;
-}
-
-body[data-theme="oldweb"] .menu-item {
-  position: relative;
-  padding: 8px 10px 7px 22px;
-  border-radius: 0;
-  border: 1px solid #b7b7b7;
-  background:
-    linear-gradient(180deg, #fafafa, #ececec);
-  box-shadow:
-    1px 1px 0 rgba(255, 255, 255, 0.85) inset,
-    -1px -1px 0 rgba(0, 0, 0, 0.05) inset;
-}
-
-body[data-theme="oldweb"] .menu-item::before {
-  content: "▶";
-  position: absolute;
-  left: 8px;
-  top: 10px;
-  color: var(--oldweb-red);
-  font-size: 11px;
-  line-height: 1;
-}
-
-body[data-theme="oldweb"] .menu-item:hover {
-  transform: none;
-  background:
-    linear-gradient(180deg, #ffffff, #f3f3f3);
-  border-color: #8f8f8f;
-}
-
-body[data-theme="oldweb"] .menu-item:active {
-  box-shadow:
-    -1px -1px 0 rgba(255, 255, 255, 0.65) inset,
-    1px 1px 0 rgba(0, 0, 0, 0.10) inset;
-}
-
-body[data-theme="oldweb"] .menu-item-top {
-  align-items: baseline;
-}
-
-body[data-theme="oldweb"] .menu-label {
-  color: var(--oldweb-blue);
-  text-decoration: underline;
-}
-
-body[data-theme="oldweb"] .menu-label-main {
-  color: #990000;
-}
-
-body[data-theme="oldweb"] .menu-desc {
-  margin-top: 4px;
-  color: #333333;
-  font-size: 12px;
-  line-height: 1.45;
-}
-
-/* メイン項目だけ少し目立たせる */
-body[data-theme="oldweb"] .menu-item-main {
-  border-color: #9fb3df;
-  background:
-    linear-gradient(180deg, #fdfefe, #e9f1ff);
-}
-
-body[data-theme="oldweb"] .menu-item-main::before {
-  content: "★";
-  color: #cc0000;
-}
-
-/* classic 系は落ち着いた青 */
-body[data-theme="oldweb"] .menu-item-classic .menu-label {
-  color: #003399;
-}
-
-/* coop は緑 */
-body[data-theme="oldweb"] .menu-item-coop .menu-label {
-  color: #006600;
-}
-
-/* chaos は赤寄り */
-body[data-theme="oldweb"] .menu-item-chaos .menu-label {
-  color: #990000;
-}
-
-/* BR は紫寄り */
-body[data-theme="oldweb"] .menu-item-br .menu-label {
-  color: #663399;
-}
-
-/* tool は濃紺 */
-body[data-theme="oldweb"] .menu-item-tool .menu-label {
-  color: #003366;
-}
-
-/* home は地味め */
-body[data-theme="oldweb"] .menu-item-home .menu-label {
-  color: #444444;
-}
-
-/* community の見分け強化 */
-body[data-theme="oldweb"] .menu-item-community-token {
-  border-left: 5px solid #4a76d1;
-}
-
-body[data-theme="oldweb"] .menu-item-community-coin {
-  border-left: 5px solid #b07a24;
-}
-
-body[data-theme="oldweb"] .menu-item-community-token .menu-desc::before {
-  content: "[TOKEN] ";
-  color: #2d58b5;
-  font-weight: 700;
-}
-
-body[data-theme="oldweb"] .menu-item-community-coin .menu-desc::before {
-  content: "[COIN] ";
-  color: #8a5c12;
-  font-weight: 700;
-}
-
-/* pill をさらに古めに */
-body[data-theme="oldweb"] .pill {
-  min-width: 0;
-  padding: 1px 6px 2px;
-  border-radius: 0;
-  border: 1px solid #aaaaaa;
-  background: #dddddd;
-  color: #444444;
-  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.7) inset;
-}
-
-body[data-theme="oldweb"] .pill-main {
-  color: #7a0000;
-  border-color: #c29c9c;
-  background: #f0dede;
-}
 
 /* =========================
    INFO
@@ -684,7 +636,6 @@ body[data-theme="oldweb"] #update_content {
   margin-top: 6px;
 }
 
-/* 更新情報を「更新履歴」っぽく */
 body[data-theme="oldweb"] .update-row {
   position: relative;
   margin-top: 6px;
@@ -711,6 +662,9 @@ body[data-theme="oldweb"] .update-label {
    フッター
    ========================= */
 
+/* [修正] 元は「パネル背景差」と「フッター」の2箇所に分散していた
+   .panel-footer 宣言を1箇所に統合。
+   なお background は .footer .panel（詳細度 0,3,0）に常に負けるため削除。 */
 body[data-theme="oldweb"] .panel-footer {
   position: relative;
 }
@@ -722,20 +676,4 @@ body[data-theme="oldweb"] .panel-footer::after {
   bottom: 10px;
   color: #666666;
   font-size: 11px;
-}
-
-/* =========================
-   リンク感をさらに昔風に
-   ========================= */
-
-body[data-theme="oldweb"] a {
-  color: #0033cc;
-}
-
-body[data-theme="oldweb"] a:hover {
-  color: #cc0000;
-}
-
-body[data-theme="oldweb"] a:visited {
-  color: #663399;
 }

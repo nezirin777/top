@@ -51,6 +51,14 @@ body[data-theme="cyber"] {
 
   --footer-small: rgba(245, 250, 255, 0.72);
 
+  /* [修正] 採用版強化差分ブロックに散在していた --cyber-* 変数をメインに統合 */
+  --cyber-cyan: #7ef9ff;
+  --cyber-magenta: #ff57d2;
+  --cyber-violet: #b592ff;
+  --cyber-lime: #a8ff60;
+  --cyber-amber: #ffca5f;
+  --cyber-red: #ff6b7a;
+
   text-shadow:
     0 0 6px rgba(0, 255, 240, 0.28),
     0 0 16px rgba(255, 60, 220, 0.14);
@@ -73,22 +81,18 @@ body[data-theme="cyber"]::before {
     radial-gradient(900px 520px at 78% 22%, rgba(255, 60, 220, 0.18), transparent 62%),
     radial-gradient(800px 520px at 40% 78%, rgba(170, 90, 255, 0.16), transparent 62%),
     radial-gradient(1200px 900px at 50% 75%, transparent 35%, rgba(0, 0, 0, 0.70) 100%),
-    repeating-linear-gradient(
-      0deg,
+    repeating-linear-gradient(0deg,
       rgba(255, 255, 255, 0.040) 0px,
       rgba(255, 255, 255, 0.040) 1px,
       transparent 2px,
-      transparent 7px
-    ),
+      transparent 7px),
     linear-gradient(90deg, rgba(0, 255, 240, 0.18) 1px, transparent 1px),
     linear-gradient(0deg, rgba(0, 255, 240, 0.18) 1px, transparent 1px),
-    repeating-linear-gradient(
-      135deg,
+    repeating-linear-gradient(135deg,
       rgba(255, 60, 220, 0.06) 0px,
       rgba(255, 60, 220, 0.06) 1px,
       transparent 2px,
-      transparent 18px
-    );
+      transparent 18px);
 
   background-size:
     auto,
@@ -110,22 +114,18 @@ body[data-theme="cyber"] .scanline2 {
 }
 
 body[data-theme="cyber"] .scanline {
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 255, 234, 0.05) 1px,
-    transparent 3px
-  );
+  background: repeating-linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 255, 234, 0.05) 1px,
+      transparent 3px);
   animation: scan 6s linear infinite;
 }
 
 body[data-theme="cyber"] .scanline2 {
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(255, 0, 170, 0.04) 2px,
-    transparent 5px
-  );
+  background: repeating-linear-gradient(to bottom,
+      transparent 0%,
+      rgba(255, 0, 170, 0.04) 2px,
+      transparent 5px);
   animation: scan2 9s linear infinite reverse;
 }
 
@@ -148,13 +148,11 @@ body[data-theme="cyber"] .panel::before {
     radial-gradient(circle at 14% 16%, rgba(0, 255, 240, 0.28), transparent 44%),
     radial-gradient(circle at 86% 14%, rgba(255, 60, 220, 0.24), transparent 44%),
     radial-gradient(circle at 40% 88%, rgba(170, 90, 255, 0.18), transparent 50%),
-    repeating-linear-gradient(
-      180deg,
+    repeating-linear-gradient(180deg,
       rgba(0, 255, 240, 0.06) 0px,
       rgba(0, 255, 240, 0.06) 1px,
       transparent 2px,
-      transparent 10px
-    );
+      transparent 10px);
   opacity: 0.88;
 }
 
@@ -194,12 +192,10 @@ body[data-theme="cyber"] .panel-title::before {
   bottom: -6px;
   width: 60%;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 255, 240, 0.9),
-    rgba(255, 60, 220, 0.6),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      rgba(0, 255, 240, 0.9),
+      rgba(255, 60, 220, 0.6),
+      transparent);
 }
 
 body[data-theme="cyber"] .panel-title::after {
@@ -241,14 +237,12 @@ body[data-theme="cyber"] .menu-item::before {
   pointer-events: none;
   transform: translateX(-55%);
   transition: opacity 180ms ease, transform 360ms ease;
-  background: linear-gradient(
-    120deg,
-    transparent 36%,
-    rgba(0, 255, 240, 0.26) 50%,
-    rgba(255, 60, 220, 0.18) 58%,
-    rgba(140, 255, 80, 0.12) 62%,
-    transparent 72%
-  );
+  background: linear-gradient(120deg,
+      transparent 36%,
+      rgba(0, 255, 240, 0.26) 50%,
+      rgba(255, 60, 220, 0.18) 58%,
+      rgba(140, 255, 80, 0.12) 62%,
+      transparent 72%);
 }
 
 body[data-theme="cyber"] .menu-item::after {
@@ -261,14 +255,12 @@ body[data-theme="cyber"] .menu-item::after {
   opacity: 0;
   pointer-events: none;
   transform: translateX(-25%) scaleX(0.75);
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 255, 240, 0),
-    rgba(0, 255, 240, 0.85),
-    rgba(255, 60, 220, 0.7),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(0, 255, 240, 0),
+      rgba(0, 255, 240, 0.85),
+      rgba(255, 60, 220, 0.7),
+      transparent);
 }
 
 body[data-theme="cyber"] .menu-item:hover::before {
@@ -309,13 +301,11 @@ body[data-theme="cyber"] .hero-card::before {
   z-index: 1;
   pointer-events: none;
   border-radius: 10px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06),
-    transparent 20%,
-    transparent 80%,
-    rgba(0, 255, 240, 0.06)
-  );
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.06),
+      transparent 20%,
+      transparent 80%,
+      rgba(0, 255, 240, 0.06));
 }
 
 body[data-theme="cyber"] .hero-card img {
@@ -328,11 +318,9 @@ body[data-theme="cyber"] .hero-card img {
 body[data-theme="cyber"] .hero-nav {
   border-radius: 12px;
   border-color: rgba(0, 255, 240, 0.38);
-  background: linear-gradient(
-    180deg,
-    rgba(0, 255, 240, 0.12),
-    rgba(255, 60, 220, 0.10)
-  );
+  background: linear-gradient(180deg,
+      rgba(0, 255, 240, 0.12),
+      rgba(255, 60, 220, 0.10));
   box-shadow:
     0 0 16px rgba(0, 255, 240, 0.12),
     inset 0 0 0 1px rgba(255, 255, 255, 0.05);
@@ -381,12 +369,10 @@ body[data-theme="cyber"]::after {
   z-index: 9998;
   height: 2px;
   pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 255, 240, 0.9),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(0, 255, 240, 0.9),
+      transparent);
   animation: cyberScan 7s linear infinite;
 }
 
@@ -394,6 +380,7 @@ body[data-theme="cyber"]::after {
    11) reduced motion
    ========================= */
 @media (prefers-reduced-motion: reduce) {
+
   body[data-theme="cyber"] .menu-item::before,
   body[data-theme="cyber"] .menu-item::after {
     transition: none;
@@ -414,115 +401,88 @@ body[data-theme="cyber"]::after {
    12) keyframes
    ========================= */
 @keyframes scan {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
 }
 
 @keyframes scan2 {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
 }
 
 @keyframes cyberScan {
-  0% { top: -5%; }
-  100% { top: 105%; }
+  0% {
+    top: -5%;
+  }
+
+  100% {
+    top: 105%;
+  }
 }
 
 @keyframes cyberPulse {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.035); }
+
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.035);
+  }
 }
 
 @keyframes cyberTitleFlicker {
-  0%, 100% { opacity: 1; }
-  8% { opacity: 0.96; }
-  9% { opacity: 0.82; }
-  10% { opacity: 1; }
-  48% { opacity: 1; }
-  49% { opacity: 0.88; }
-  50% { opacity: 1; }
-}
-/* =========================================================
-   cyber 軽量強化差分
-   - 元の cyber の雰囲気は壊さない
-   - メニュー項目ごとの差だけ少し強める
-   ========================================================= */
 
-/* メイン項目は少しだけ強く */
-body[data-theme="cyber"] .menu-item-main .menu-label {
-  color: #ffffff;
-  text-shadow:
-    0 0 10px rgba(126, 249, 255, 0.35),
-    0 0 16px rgba(255, 87, 210, 0.16);
-}
+  0%,
+  100% {
+    opacity: 1;
+  }
 
-/* 項目ごとのニュアンス差 */
-body[data-theme="cyber"] .menu-item-classic .menu-label {
-  color: #8fc8ff;
-}
+  8% {
+    opacity: 0.96;
+  }
 
-body[data-theme="cyber"] .menu-item-coop .menu-label {
-  color: #a8ff60;
-}
+  9% {
+    opacity: 0.82;
+  }
 
-body[data-theme="cyber"] .menu-item-chaos .menu-label {
-  color: #ff6b7a;
-}
+  10% {
+    opacity: 1;
+  }
 
-body[data-theme="cyber"] .menu-item-br .menu-label {
-  color: #b592ff;
-}
+  48% {
+    opacity: 1;
+  }
 
-body[data-theme="cyber"] .menu-item-tool .menu-label {
-  color: #ffca5f;
-}
+  49% {
+    opacity: 0.88;
+  }
 
-body[data-theme="cyber"] .menu-item-home .menu-label {
-  color: rgba(220, 240, 245, 0.88);
-}
-
-/* community 2種の差別化は控えめに */
-body[data-theme="cyber"] .menu-item-community-token {
-  border-left: 2px solid rgba(126, 249, 255, 0.50);
-}
-
-body[data-theme="cyber"] .menu-item-community-coin {
-  border-left: 2px solid rgba(255, 202, 95, 0.50);
-}
-
-body[data-theme="cyber"] .menu-item-community-token .menu-label {
-  color: #7ef9ff;
-}
-
-body[data-theme="cyber"] .menu-item-community-coin .menu-label {
-  color: #ffca5f;
-}
-
-/* MAINラベルだけ少し特別扱い */
-body[data-theme="cyber"] .pill-main {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.24);
-  box-shadow:
-    0 0 8px rgba(126, 249, 255, 0.08) inset,
-    0 0 14px rgba(255, 87, 210, 0.08);
+  50% {
+    opacity: 1;
+  }
 }
 
 /* =========================================================
-   cyber 採用版 強化差分
-   - 元の cyber の雰囲気は維持
-   - 見出しは文字追加なしで役割差
-   - Discord 2種は TOKEN-NET / COIN-NET で区別
-   - 更新情報はログ風に強化
+   採用版 強化差分
+   ---------------------------------------------------------
+   [修正] 元ファイルには「軽量強化差分」と「採用版強化差分」の
+   2ブロックが存在したが、軽量強化差分の全12ルールが
+   採用版強化差分に同一または同値で上書きされており、
+   完全に死んだコードだったため削除。採用版に一本化。
+   また --cyber-* 変数はメインブロックへ移動済み。
    ========================================================= */
-
-body[data-theme="cyber"] {
-  --cyber-cyan: #7ef9ff;
-  --cyber-magenta: #ff57d2;
-  --cyber-violet: #b592ff;
-  --cyber-lime: #a8ff60;
-  --cyber-amber: #ffca5f;
-  --cyber-red: #ff6b7a;
-}
 
 /* =========================
    パネルタイトルの役割差
@@ -588,9 +548,8 @@ body[data-theme="cyber"] .panel-title-news::after {
   box-shadow: 0 0 8px rgba(255, 87, 210, 0.28);
 }
 
-
 /* =========================
-   メニュー項目の軽量強化
+   メニュー項目の色分け
    ========================= */
 
 body[data-theme="cyber"] .menu-item-main .menu-label {
@@ -739,11 +698,10 @@ body[data-theme="cyber"] .update-label {
   font-weight: 700;
 }
 
-/* =========================================================
-   cyber: menu-label のサイバー感を少し強化
-   - 色分けは維持
+/* =========================
+   menu-label のサイバー感強化
    - 微グロー、細い発光ライン、hover強化
-   ========================================================= */
+   ========================= */
 
 body[data-theme="cyber"] .menu-item .menu-label {
   position: relative;

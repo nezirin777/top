@@ -52,6 +52,14 @@ body[data-theme="retro"] {
   --hero-inner: rgba(255, 255, 255, 0.03);
 
   --footer-small: rgba(244, 236, 216, 0.72);
+
+  /* [修正] 強化差分ブロックに散在していた --retro-* 変数をメインに統合 */
+  --retro-gold: rgba(255, 209, 117, 0.78);
+  --retro-gold-soft: rgba(255, 209, 117, 0.26);
+  --retro-bronze: rgba(201, 140, 88, 0.72);
+  --retro-moss: rgba(168, 182, 120, 0.72);
+  --retro-wine: rgba(190, 116, 106, 0.72);
+  --retro-ink-soft: rgba(245, 230, 205, 0.88);
 }
 
 /* =========================
@@ -144,7 +152,7 @@ body[data-theme="retro"] .panel-title::after {
 /* =========================
    4) メニューカード
    ========================= */
-/* 手作り感より“丁寧なカード”感を優先 */
+/* 手作り感より"丁寧なカード"感を優先 */
 body[data-theme="retro"] .menu-item {
   background:
     linear-gradient(180deg,
@@ -248,7 +256,7 @@ body[data-theme="retro"] .hero-card img {
 /* =========================
    7) 矢印ボタン
    ========================= */
-/* “昔のサイトのボタン”っぽさは残しつつ落ち着かせる */
+/* "昔のサイトのボタン"っぽさは残しつつ落ち着かせる */
 body[data-theme="retro"] .hero-nav {
   background:
     linear-gradient(180deg,
@@ -336,20 +344,18 @@ body[data-theme="retro"] .footer-small {
 }
 
 /* =========================================================
-   retro 軽量強化差分
-   - 今の「上品レトロ」は維持
-   - 役割差だけを控えめに追加
-   - oldweb ほど古臭くせず、cyber ほど派手にしない
+   強化差分
+   ---------------------------------------------------------
+   [修正] 元ファイルには「軽量強化差分」と末尾の「Discord 2種の区別を強化」の
+   2ブロックに community 関連の4ルールが分散していた。
+   ・.menu-item-community-token  border-left（軽量強化差分）
+   ・.menu-item-community-coin   border-left（軽量強化差分）
+   ・.menu-item-community-token .menu-label（軽量強化差分）
+   ・.menu-item-community-coin  .menu-label（軽量強化差分）
+   いずれも末尾ブロックの同セレクターに上書きされる死んだコードのため削除。
+   末尾ブロックの値で一本化。
+   また --retro-* 変数はメインブロックへ移動済み。
    ========================================================= */
-
-body[data-theme="retro"] {
-  --retro-gold: rgba(255, 209, 117, 0.78);
-  --retro-gold-soft: rgba(255, 209, 117, 0.26);
-  --retro-bronze: rgba(201, 140, 88, 0.72);
-  --retro-moss: rgba(168, 182, 120, 0.72);
-  --retro-wine: rgba(190, 116, 106, 0.72);
-  --retro-ink-soft: rgba(245, 230, 205, 0.88);
-}
 
 /* =========================
    パネル見出しの役割差
@@ -413,6 +419,10 @@ body[data-theme="retro"] .panel-title-news::after {
    派手すぎない範囲で温度差を出す
    ========================= */
 
+body[data-theme="retro"] .menu-primary {
+  gap: 4px;
+}
+
 body[data-theme="retro"] .menu-item-main .menu-label {
   color: rgba(255, 232, 190, 0.98);
   text-shadow:
@@ -442,23 +452,6 @@ body[data-theme="retro"] .menu-item-tool .menu-label {
 
 body[data-theme="retro"] .menu-item-home .menu-label {
   color: rgba(220, 212, 198, 0.92);
-}
-
-/* community 2種は控えめに見分ける */
-body[data-theme="retro"] .menu-item-community-token {
-  border-left: 2px solid rgba(176, 146, 90, 0.36);
-}
-
-body[data-theme="retro"] .menu-item-community-coin {
-  border-left: 2px solid rgba(138, 120, 86, 0.34);
-}
-
-body[data-theme="retro"] .menu-item-community-token .menu-label {
-  color: rgba(240, 216, 166, 0.96);
-}
-
-body[data-theme="retro"] .menu-item-community-coin .menu-label {
-  color: rgba(223, 201, 168, 0.94);
 }
 
 /* MAIN ラベルだけ少しだけ格上げ */
@@ -591,7 +584,7 @@ body[data-theme="retro"] .panel-footer::after {
 }
 
 /* =========================
-   retro: Discord 2種の区別を強化
+   Discord 2種の区別
    ========================= */
 
 body[data-theme="retro"] .menu-item-community-token {
