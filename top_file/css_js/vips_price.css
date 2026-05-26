@@ -1,293 +1,11 @@
-/* =========================
-   VIPS PRICE PAGE ONLY
-   共通テーマの上に重ねる専用差分
-   ========================= */
-
-/* -------------------------
-   Header
-   左: TOPリンク / 中: タイトル / 右: テーマ切替
-   ------------------------- */
-
-#header .header-inner {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: start;
-  gap: 12px;
-}
-
-#header .header-linkbox {
-  grid-column: 1;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  align-self: start;
-}
-
-#header .price-hero {
-  grid-column: 2;
-  min-width: 0;
-  margin: 0;
-  padding: 16px;
-}
-
-#header .theme-switch {
-  grid-column: 3;
-  display: flex;
-  justify-content: flex-end;
-  align-self: start;
-}
-
-#header .header-toplink {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 40px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--pill-border);
-  background: var(--pill-bg);
-  color: var(--pill-text);
-  text-decoration: none;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  white-space: nowrap;
-  transition:
-    transform 120ms ease,
-    box-shadow 120ms ease,
-    border-color 120ms ease,
-    background 120ms ease;
-}
-
-#header .header-toplink:hover {
-  transform: translateY(-1px);
-  border-color: var(--accent);
-  box-shadow: 0 0 12px var(--accent-soft);
-  text-decoration: none;
-}
-
-#header .header-toplink:active {
-  transform: translateY(1px) scale(0.99);
-}
-
-#header .header-toplink:focus-visible {
-  outline: 2px solid var(--accent-strong);
-  outline-offset: 2px;
-}
-
-/* -------------------------
-   Main layout
-   ------------------------- */
-
-.price-panel,
-.converter-panel,
-.info-panel {
-  padding: 16px;
-}
-
-.price-main {
-  display: grid;
-  gap: 18px;
-}
-
-.price-summary {
-  display: grid;
-  gap: 10px;
-}
-
-.price-line {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  align-items: baseline;
-  padding: 10px 12px;
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  background: var(--card-bg);
-}
-
-.price-line strong {
-  color: var(--menu-label);
-}
-
-/* -------------------------
-   Converter
-   ------------------------- */
-
-.converter-group+.converter-group {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid var(--panel-border);
-}
-
-.converter-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-  margin-top: 8px;
-}
-
-.converter-row input[type="text"] {
-  width: 200px;
-  max-width: 100%;
-  padding: 8px 10px;
-  border-radius: 10px;
-  border: 1px solid var(--card-border);
-  background: var(--card-bg);
-  color: var(--text);
-  font: inherit;
-}
-
-.converter-row input[type="text"]:focus {
-  outline: 2px solid var(--accent-strong);
-  outline-offset: 2px;
-}
-
-.result-box {
-  display: inline-flex;
-  align-items: center;
-  min-width: 120px;
-  padding: 8px 10px;
-  border-radius: 10px;
-  border: 1px solid var(--pill-border);
-  background: var(--pill-bg);
-  color: var(--pill-text);
-  font-family: var(--font-mono);
-}
-
-/* -------------------------
-   Actions
-   ------------------------- */
-
-.price-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.price-btn {
-  padding: 8px 10px;
-  border-radius: 12px;
-  border: 1px solid var(--panel-border);
-  background: rgba(0, 0, 0, 0.18);
-  color: var(--text);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  transition:
-    transform 120ms ease,
-    box-shadow 120ms ease,
-    border-color 120ms ease,
-    background 120ms ease;
-}
-
-.price-btn:hover {
-  transform: translateY(-1px);
-  border-color: var(--accent);
-  box-shadow: 0 0 12px var(--accent-soft);
-}
-
-.price-btn:active {
-  transform: translateY(1px) scale(0.99);
-}
-
-/* -------------------------
-   Status / meta
-   ------------------------- */
-
-.status-line {
-  margin-bottom: 12px;
-  font-size: 13px;
-  color: var(--menu-desc);
-}
-
-.status-line.error {
-  color: #ff8f8f;
-}
-
-.meta-list {
-  display: grid;
-  gap: 8px;
-  font-size: 13px;
-}
-
-.meta-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--panel-border);
-}
-
-.meta-label {
-  color: var(--menu-label);
-  font-weight: 700;
-}
-
-.meta-value {
-  text-align: right;
-  word-break: break-all;
-}
-
-.notice.compact {
-  margin-top: 0;
-}
-
-.price-menu {
-  margin-top: 14px;
-}
-
-/* -------------------------
-   Responsive
-   ------------------------- */
-
-@media (max-width: 880px) {
-  #header .header-inner {
-    grid-template-columns: 1fr;
-  }
-
-  #header .header-linkbox,
-  #header .price-hero,
-  #header .theme-switch {
-    grid-column: auto;
-  }
-
-  #header .header-linkbox,
-  #header .theme-switch {
-    justify-content: flex-start;
-  }
-
-  #header .header-toplink,
-  #header .theme-btn {
-    width: 100%;
-  }
-
-  .converter-row {
-    align-items: stretch;
-  }
-
-  .converter-row input[type="text"] {
-    width: 100%;
-  }
-
-  .result-box {
-    min-width: 0;
-    width: 100%;
-  }
-}
-
 /* =========================================================
    VIPS PRICE PAGE ONLY
    共通テーマの上に重ねる専用差分
-   - 意味クラス対応版
    ========================================================= */
 
 /* -------------------------
    Header
+   左: TOPリンク / 中: タイトル / 右: テーマ切替
    ------------------------- */
 
 #header.panel-price-header .header-inner {
@@ -601,35 +319,9 @@
 }
 
 /* =========================================================
-   VIPS PRICE - theme tuning
-   前提:
-   - panel-title-price
-   - panel-title-converter
-   - panel-title-market
-   - panel-title-info-side
-   - panel-price-hero
-   - panel-converter
-   - panel-market
-   - panel-info-side
-   が HTML に追加されていること
+   CYBER
    ========================================================= */
 
-/* #########################################################
-   CYBER
-   - 小さい記号 + 発光ラインあり
-   - ラベル類は青く光る感じを維持
-   ######################################################### */
-
-body[data-theme="cyber"] {
-  --price-cyber-cyan: #7ef9ff;
-  --price-cyber-lime: #a8ff60;
-  --price-cyber-magenta: #ff57d2;
-  --price-cyber-amber: #ffca5f;
-  --price-cyber-violet: #b592ff;
-}
-
-
-/* 左アクセント */
 body[data-theme="cyber"] .panel-title-price {
   border-left: 3px solid rgba(126, 249, 255, 0.85);
   box-shadow: inset 0 0 12px rgba(126, 249, 255, 0.05);
@@ -650,7 +342,6 @@ body[data-theme="cyber"] .panel-title-info-side {
   box-shadow: inset 0 0 12px rgba(255, 202, 95, 0.05);
 }
 
-/* 右の短い発光ライン */
 body[data-theme="cyber"] .panel-title-price::after,
 body[data-theme="cyber"] .panel-title-converter::after,
 body[data-theme="cyber"] .panel-title-market::after,
@@ -685,24 +376,22 @@ body[data-theme="cyber"] .panel-title-info-side::after {
   box-shadow: 0 0 8px rgba(255, 202, 95, 0.24);
 }
 
-/* Market */
 body[data-theme="cyber"] .price-line strong {
   color: rgba(255, 235, 250, 0.96);
 }
 
 body[data-theme="cyber"] .price-line-unit strong {
-  color: var(--price-cyber-cyan);
+  color: var(--cyber-cyan);
 }
 
 body[data-theme="cyber"] .price-line-10k strong {
-  color: var(--price-cyber-amber);
+  color: var(--cyber-amber);
 }
 
 body[data-theme="cyber"] .price-line-1m strong {
-  color: var(--price-cyber-magenta);
+  color: var(--cyber-magenta);
 }
 
-/* Buttons */
 body[data-theme="cyber"] .price-btn {
   background: linear-gradient(180deg, rgba(18, 32, 54, 0.94), rgba(8, 16, 30, 0.94));
   color: rgba(220, 255, 255, 0.88);
@@ -711,17 +400,9 @@ body[data-theme="cyber"] .price-btn {
     0 0 12px rgba(126, 249, 255, 0.03);
 }
 
-
-/* #########################################################
+/* =========================================================
    RETRO
-   ######################################################### */
-
-body[data-theme="retro"] {
-  --price-retro-gold: rgba(255, 209, 117, 0.78);
-  --price-retro-bronze: rgba(201, 140, 88, 0.72);
-  --price-retro-moss: rgba(168, 182, 120, 0.72);
-  --price-retro-wine: rgba(190, 116, 106, 0.72);
-}
+   ========================================================= */
 
 body[data-theme="retro"] .panel-title-price,
 body[data-theme="retro"] .panel-title-converter,
@@ -882,9 +563,9 @@ body[data-theme="retro"] .meta-label {
   color: rgba(245, 228, 198, 0.92);
 }
 
-/* #########################################################
+/* =========================================================
    OLDWEB
-   ######################################################### */
+   ========================================================= */
 
 body[data-theme="oldweb"] .panel-title-price,
 body[data-theme="oldweb"] .panel-title-converter,

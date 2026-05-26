@@ -73,7 +73,9 @@
 /* =========================
    2) Base styles
    ========================= */
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -90,12 +92,9 @@ body {
   line-height: 1.65;
 }
 
-/* 深夜帯に静かな表示　*/
 body.late-night {
-  filter: brightness(0.96);
+  filter: brightness(0.92);
 }
-
-/* ここまで*/
 
 #page {
   position: relative;
@@ -109,7 +108,7 @@ body.late-night {
   font-family: var(--font-mono);
 }
 
-/* scanline elements exist in HTML, hidden by default */
+/* scanline要素はHTML側で定義、デフォルトは非表示 */
 .scanline,
 .scanline2 {
   position: fixed;
@@ -145,7 +144,6 @@ body.late-night {
     radial-gradient(circle at 40% 85%, var(--panel-glow-3), transparent 35%);
 }
 
-/* パネル内容を glow より前に出す */
 .panel>* {
   position: relative;
   z-index: 2;
@@ -176,19 +174,10 @@ body.late-night {
 /* =========================
    5) Header / hero
    ========================= */
-
-/* [修正] #header.panel と #header の競合を解消。
-   HTMLでは常に class="panel" が付くため #header 単独ルールは
-   #header.panel より詳細度が低く、padding / margin-bottom が無効だった。
-   一本化して意図通りの値（padding: 12px, margin-bottom: 18px）に統一。 */
 #header.panel {
   max-width: 1050px;
   margin: 0 auto 18px;
   padding: 12px;
-}
-
-#header {
-  padding: 0;
 }
 
 .header-inner {
@@ -201,7 +190,6 @@ body.late-night {
   justify-content: center;
 }
 
-/* 画像未読込でも高さ確保 */
 .hero-card {
   position: relative;
   display: grid;
@@ -233,13 +221,11 @@ body.late-night {
   width: 100%;
   height: auto;
   max-height: 400px;
-  margin: 0 auto;
   object-fit: contain;
   border-radius: 10px;
   filter: contrast(1.03) saturate(1.06);
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
   animation: heroBreath 8s ease-in-out infinite;
-  /* 画像に微かな呼吸アニメーション */
 }
 
 @keyframes heroBreath {
@@ -254,7 +240,6 @@ body.late-night {
   }
 }
 
-/* 画像切り替え時のフェード効果 */
 #hero-banner {
   opacity: 1;
   transition: opacity 220ms ease;
@@ -341,7 +326,6 @@ body.late-night {
   box-shadow: 0 0 12px var(--accent-soft);
 }
 
-/* クリックで軽く沈む */
 .theme-btn:active {
   transform: translateY(1px) scale(0.99);
 }
@@ -500,7 +484,6 @@ body.late-night {
   letter-spacing: 0.12em;
 }
 
-/* [修正] .notice-body が2箇所に分散していたのを1箇所に統合 */
 .notice-body {
   font-size: 13px;
   color: var(--notice-body);
@@ -626,14 +609,8 @@ body.late-night {
 }
 
 /* =========================
-   14) テーマ切り替えトランジション
+   14) Theme transitions
    ========================= */
-
-/* [修正] 元のコードは一括ブロックで全要素に同じ値を設定した後、
-   個別ブロックで上書きしており、一括ブロックがほぼ無意味だった。
-   また .notice-box という存在しないクラスを参照していた（正: .notice）。
-   要素ごとに1箇所にまとめて整理。 */
-
 html,
 body {
   transition:
@@ -680,10 +657,6 @@ input,
 /* =========================
    15) Motion safety
    ========================= */
-
-/* [修正] 元は section 14 にあったが、直後のトランジション宣言群に
-   上書きされて transition: none が無効になっていた。
-   トランジション宣言より後ろに移動し、対象セレクターも拡充。 */
 @media (prefers-reduced-motion: reduce) {
 
   *,

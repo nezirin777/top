@@ -1,4 +1,4 @@
-#!D:\Strawberry\perl\bin\perl.exe
+#!D:\Strawberry\perl\bin\perl
 
 use strict;
 use warnings;

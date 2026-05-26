@@ -35,9 +35,9 @@ async function initNoticePanel() {
     }
 
     el.innerHTML = items.map((item) => {
-      const date = escapeHtml(item.date ?? "");
+      const date  = escapeHtml(item.date ?? "");
       const title = escapeHtml(item.title ?? "お知らせ");
-      const body = escapeHtml(item.body ?? "").replace(/\r?\n/g, "<br>");
+      const body  = escapeHtml(item.body ?? "").replace(/\r?\n/g, "<br>");
 
       return `
         <article class="notice">
@@ -86,22 +86,21 @@ async function initUpdatePanel() {
 }
 
 function initTheme() {
-  const btn = document.getElementById("themeToggle");
+  const btn   = document.getElementById("themeToggle");
   const label = document.getElementById("themeLabel");
   if (!btn || !label) return;
 
-  const themes = ["retro", "cyber", "oldweb"];
+  const themes       = ["retro", "cyber", "oldweb"];
   const defaultTheme = "retro";
-  const saved = localStorage.getItem("site_theme");
+  const saved        = localStorage.getItem("site_theme");
   const initialTheme = themes.includes(saved) ? saved : defaultTheme;
 
   applyTheme(initialTheme);
 
   btn.addEventListener("click", () => {
-    const current = document.body.dataset.theme;
+    const current      = document.body.dataset.theme;
     const currentIndex = themes.indexOf(current);
-    const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % themes.length : 0;
-    const nextTheme = themes[nextIndex];
+    const nextTheme    = themes[currentIndex >= 0 ? (currentIndex + 1) % themes.length : 0];
 
     applyTheme(nextTheme);
     localStorage.setItem("site_theme", nextTheme);
@@ -143,7 +142,7 @@ async function loadBannerManifest() {
 }
 
 function buildBannerList(theme, manifest) {
-  const entry = manifest?.[theme] ?? BANNER_FALLBACK[theme] ?? BANNER_FALLBACK.retro;
+  const entry    = manifest?.[theme] ?? BANNER_FALLBACK[theme] ?? BANNER_FALLBACK.retro;
   const { folder, count } = entry;
   return Array.from({ length: count }, (_, i) =>
     `./top_file/banner/${folder}/banner${i + 1}.jpg`
@@ -151,24 +150,22 @@ function buildBannerList(theme, manifest) {
 }
 
 async function initHeroBanner() {
-  const img = document.getElementById("hero-banner");
+  const img      = document.getElementById("hero-banner");
   const heroCard = document.querySelector(".hero-card");
-  const btnPrev = document.querySelector(".hero-nav-prev");
-  const btnNext = document.querySelector(".hero-nav-next");
+  const btnPrev  = document.querySelector(".hero-nav-prev");
+  const btnNext  = document.querySelector(".hero-nav-next");
 
   if (!img) return;
 
-  // マニフェストを先に取得してからバナーを初期化
   const manifest = await loadBannerManifest();
 
-  let currentList = [];
+  let currentList  = [];
   let currentIndex = 0;
-  let autoTimer = null;
-  let fadeTimer = null;
+  let autoTimer    = null;
 
   const AUTO_ROTATE_MS = 15000;
-  const FADE_MS = 220;
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const FADE_MS        = 220;
+  const reducedMotion  = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   function stopAutoRotate() {
     if (autoTimer) {
@@ -179,61 +176,49 @@ async function initHeroBanner() {
 
   function startAutoRotate() {
     if (reducedMotion.matches || !currentList.length) return;
-
     stopAutoRotate();
-    autoTimer = window.setInterval(() => {
-      step(1);
-    }, AUTO_ROTATE_MS);
-  }
-
-  function restartAutoRotate() {
-    startAutoRotate();
+    autoTimer = window.setInterval(() => step(1), AUTO_ROTATE_MS);
   }
 
   function fadeBanner() {
-    clearTimeout(fadeTimer);
     img.classList.add("is-changing");
-
-    fadeTimer = window.setTimeout(() => {
-      img.classList.remove("is-changing");
-    }, FADE_MS);
+    window.setTimeout(() => img.classList.remove("is-changing"), FADE_MS);
   }
 
   function setBanner(src) {
     if (!src) return;
 
-    const pre = new Image();
-    pre.decoding = "async";
-    pre.loading = "eager";
+    let settled = false;
+
+    const pre      = new Image();
+    pre.decoding   = "async";
+    pre.loading    = "eager";
 
     pre.onload = () => {
+      if (settled) return;
+      settled  = true;
       fadeBanner();
-      img.src = src;
-    };
-
-    pre.onerror = () => {
-      // 読み込み失敗時は現状維持
+      img.src  = src;
     };
 
     pre.src = src;
 
     if (pre.complete && pre.naturalWidth > 0) {
+      settled  = true;
       fadeBanner();
-      img.src = src;
+      img.src  = src;
     }
   }
 
   function step(delta) {
     if (!currentList.length) return;
-
     currentIndex = (currentIndex + delta + currentList.length) % currentList.length;
     setBanner(currentList[currentIndex]);
   }
 
   function updateHeroBanner(theme, options = {}) {
     const randomize = options.randomize !== false;
-    const list = buildBannerList(theme, manifest);
-
+    const list      = buildBannerList(theme, manifest);
     if (!list.length) return;
 
     currentList = list;
@@ -245,53 +230,34 @@ async function initHeroBanner() {
     }
 
     setBanner(currentList[currentIndex]);
-    restartAutoRotate();
+    startAutoRotate();
   }
 
-  window.updateHeroBanner = (theme) => {
-    updateHeroBanner(theme, { randomize: true });
-  };
+  window.updateHeroBanner = (theme) => updateHeroBanner(theme, { randomize: true });
 
   updateHeroBanner(document.body.dataset.theme || "retro");
 
-  btnPrev?.addEventListener("click", () => {
-    step(-1);
-    restartAutoRotate();
-  });
-
-  btnNext?.addEventListener("click", () => {
-    step(1);
-    restartAutoRotate();
-  });
+  btnPrev?.addEventListener("click", () => { step(-1); startAutoRotate(); });
+  btnNext?.addEventListener("click", () => { step(1);  startAutoRotate(); });
 
   heroCard?.addEventListener("mouseenter", stopAutoRotate);
-  heroCard?.addEventListener("mouseleave", restartAutoRotate);
+  heroCard?.addEventListener("mouseleave", startAutoRotate);
 
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       stopAutoRotate();
     } else {
-      restartAutoRotate();
+      startAutoRotate();
     }
   });
 
-  if (typeof reducedMotion.addEventListener === "function") {
-    reducedMotion.addEventListener("change", () => {
-      if (reducedMotion.matches) {
-        stopAutoRotate();
-      } else {
-        restartAutoRotate();
-      }
-    });
-  } else if (typeof reducedMotion.addListener === "function") {
-    reducedMotion.addListener(() => {
-      if (reducedMotion.matches) {
-        stopAutoRotate();
-      } else {
-        restartAutoRotate();
-      }
-    });
-  }
+  reducedMotion.addEventListener("change", () => {
+    if (reducedMotion.matches) {
+      stopAutoRotate();
+    } else {
+      startAutoRotate();
+    }
+  });
 }
 
 function initLateNightMode() {
@@ -317,7 +283,6 @@ function initFooterMessage() {
     footerLines[Math.floor(Math.random() * footerLines.length)];
 }
 
-
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (ch) => {
     switch (ch) {
@@ -326,7 +291,6 @@ function escapeHtml(value) {
       case ">": return "&gt;";
       case '"': return "&quot;";
       case "'": return "&#39;";
-      default: return ch;
     }
   });
 }
